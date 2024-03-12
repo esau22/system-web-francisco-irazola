@@ -3,8 +3,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { data } from "./data";
 import { cn } from "@/libs/utils";
-import { IoIosArrowDown } from "react-icons/io";
-import ButtonIcon from "../ui/button-icon";
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -46,13 +44,6 @@ const DropdownUser = () => {
         className="flex items-center gap-1"
         href="#"
       >
-        <span className="hidden text-right lg:block">
-          <span className="block text-sm font-medium text-black">
-            Claderon el Pajero
-          </span>
-          <span className="block text-xs text-black">Confundir de Cosas</span>
-        </span>
-
         <span className="h-12 w-12 rounded-full">
           <Image
             className="rounded-full"
@@ -62,13 +53,6 @@ const DropdownUser = () => {
             alt="User"
           />
         </span>
-
-        <ButtonIcon
-          icon={IoIosArrowDown}
-          className={cn(
-            "hidden fill-current sm:block text-black hover:border-white"
-          )}
-        />
       </Link>
 
       {/* <!-- Dropdown Start --> */}

@@ -13,12 +13,12 @@ export const data = {
     {
       label: "Home",
       icon: RiHome3Line,
-      href: "/dashboard/menu-dashboard",
+      href: "/dashboard/menu-dashboard/matricula",
     },
     {
       label: "Calender",
       icon: RiCalendarCheckFill,
-      href: "/calender",
+      href: "/dashboard/menu-dashboard/certificado",
     },
     {
       label: "Tables",
