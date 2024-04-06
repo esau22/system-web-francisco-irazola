@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 };
 
 const MenuDashboard = () => {
-  return <div>hola</div>;
+  return <div>hola linda</div>;
 };
 
 export default MenuDashboard;

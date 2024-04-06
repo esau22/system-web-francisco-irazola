@@ -11,19 +11,19 @@ import {
 export const data = {
   routes: [
     {
-      label: "Home",
+      label: "Matricula",
       icon: RiHome3Line,
       href: "/dashboard/matricula",
     },
     {
-      label: "Calender",
+      label: "Certificado de Estudios",
       icon: RiCalendarCheckFill,
       href: "/dashboard/certificado",
     },
     {
-      label: "Tables",
+      label: "Tramite de Documentos",
       icon: RiTableAltFill,
-      href: "/tables",
+      href: "/dashboard/tramite",
     },
     {
       label: "Settings",
