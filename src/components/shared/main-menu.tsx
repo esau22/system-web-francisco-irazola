@@ -1,7 +1,10 @@
+"use client";
 import Link from "next/link";
 import Button from "../ui/button";
+import { useRouter } from "next/navigation";
 
 const MainMenu = () => {
+  const router = useRouter();
   return (
     <ul className="flex flex-col lg:flex-row items-center gap-4">
       <li>
@@ -37,7 +40,11 @@ const MainMenu = () => {
         </Link>
       </li>
       <li>
-        <Button type="button" label="Login" />
+        <Button
+          type="button"
+          label="Login"
+          onClick={() => router.push("/auth/login")}
+        />
       </li>
     </ul>
   );

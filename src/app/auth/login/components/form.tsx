@@ -29,7 +29,11 @@ const Form = () => {
             forgot password?
           </button>
         </div>
-        <Button type="submit" label="Login" />
+        <Button
+          type="submit"
+          label="Login"
+          onClick={() => router.push("/dashboard")}
+        />
         <div className="mt-5 mb-10 flex items-center justify-center gap-x-2">
           <p className="text-gray-500">dont have account?</p>
           <button
