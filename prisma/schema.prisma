@@ -52,22 +52,14 @@ model Grado {
 
 model Usuario {
   id Int @id @default(autoincrement())
-  usuario String @unique
-  passwoard String
-  rol Rol @relation(fields: [rolId], references: [id])
-  rolId Int  @unique 
+  user String @unique
+  email String @unique
+  password String
+  rol String
+  
 }
 
-model Rol {
-  id Int @id @default(autoincrement())
-  cargo Cargo
-  usuario Usuario?
-}
 
-enum Cargo {
-  Adminitrador
-  Empleado
-}
 
 model Documento {
   id Int @id @default(autoincrement())

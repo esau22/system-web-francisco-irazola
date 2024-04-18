@@ -4,23 +4,33 @@ import { cn } from "@/libs/utils";
 import { RiLockLine, RiLockUnlockLine } from "react-icons/ri";
 
 interface InputProps {
-  type: "text" | "password";
+  type: "text" | "email" | "password";
   placeholder: string;
+  register?: any;
   className?: string;
 }
 
-const Input: FC<InputProps> = ({ type, placeholder, className }) => {
+const Input: FC<InputProps> = ({ type, className, placeholder, register }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="w-full relative mb-5">
       <input
-        type={type === "text" ? "text" : showPassword ? "text" : "password"}
+        type={
+          type === "text"
+            ? "text"
+            : type === "email"
+            ? "email"
+            : showPassword
+            ? "text"
+            : "password"
+        }
         className={cn(
           "bg-gray-100 w-full py-3 pl-4 pr-12 outline-none rounded-xl",
           className
         )}
         placeholder={placeholder}
+        {...register}
       />
       {type === "password" && (
         <button

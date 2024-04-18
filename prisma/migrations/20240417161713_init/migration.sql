@@ -2,9 +2,6 @@
 CREATE TYPE "Estado" AS ENUM ('ACTIVO', 'DESACTIVADO');
 
 -- CreateEnum
-CREATE TYPE "Cargo" AS ENUM ('Adminitrador', 'Empleado');
-
--- CreateEnum
 CREATE TYPE "Estado_Documento" AS ENUM ('Finalizado', 'Pendiente');
 
 -- CreateTable
@@ -48,19 +45,12 @@ CREATE TABLE "Grado" (
 -- CreateTable
 CREATE TABLE "Usuario" (
     "id" SERIAL NOT NULL,
-    "usuario" TEXT NOT NULL,
-    "passwoard" TEXT NOT NULL,
-    "rolId" INTEGER NOT NULL,
+    "user" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "rol" TEXT NOT NULL,
 
     CONSTRAINT "Usuario_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Rol" (
-    "id" SERIAL NOT NULL,
-    "cargo" "Cargo" NOT NULL,
-
-    CONSTRAINT "Rol_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -107,10 +97,10 @@ CREATE UNIQUE INDEX "Matricula_seccionId_key" ON "Matricula"("seccionId");
 CREATE UNIQUE INDEX "Matricula_gradoId_key" ON "Matricula"("gradoId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Usuario_usuario_key" ON "Usuario"("usuario");
+CREATE UNIQUE INDEX "Usuario_user_key" ON "Usuario"("user");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Usuario_rolId_key" ON "Usuario"("rolId");
+CREATE UNIQUE INDEX "Usuario_email_key" ON "Usuario"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Documento_email_key" ON "Documento"("email");
@@ -129,9 +119,6 @@ ALTER TABLE "Matricula" ADD CONSTRAINT "Matricula_seccionId_fkey" FOREIGN KEY ("
 
 -- AddForeignKey
 ALTER TABLE "Matricula" ADD CONSTRAINT "Matricula_gradoId_fkey" FOREIGN KEY ("gradoId") REFERENCES "Grado"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Usuario" ADD CONSTRAINT "Usuario_rolId_fkey" FOREIGN KEY ("rolId") REFERENCES "Rol"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Documento" ADD CONSTRAINT "Documento_areaId_fkey" FOREIGN KEY ("areaId") REFERENCES "Area"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
