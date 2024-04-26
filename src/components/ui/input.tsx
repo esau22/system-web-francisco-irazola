@@ -6,11 +6,20 @@ import { RiLockLine, RiLockUnlockLine } from "react-icons/ri";
 interface InputProps {
   type: "text" | "email" | "password";
   placeholder: string;
-  register?: any;
+  name: string;
+  onChange?: any;
   className?: string;
+  value?: string;
 }
 
-const Input: FC<InputProps> = ({ type, className, placeholder, register }) => {
+const Input: FC<InputProps> = ({
+  type,
+  className,
+  placeholder,
+  name,
+  value,
+  onChange,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -30,7 +39,9 @@ const Input: FC<InputProps> = ({ type, className, placeholder, register }) => {
           className
         )}
         placeholder={placeholder}
-        {...register}
+        name={name}
+        value={value}
+        onChange={onChange}
       />
       {type === "password" && (
         <button

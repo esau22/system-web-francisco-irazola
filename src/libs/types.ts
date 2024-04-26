@@ -1,23 +1,33 @@
-import { z } from "zod";
+export interface Usuario {
+  id: number;
+  user: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  rol: string;
+}
 
-export const UserSchema = z
-  .object({
-    id: z.number().int().min(0, "Id can't be empty"),
-    user: z.string().nonempty("User can't be empty"),
-    email: z.string().nonempty("Email can't be empty"),
-    password: z
-      .string()
-      .nonempty("Password can't be empty")
-      .min(3, "Password must be 3 characters or more"),
-    confirmPassword: z
-      .string()
-      .nonempty("Confirm Password can't be empty")
-      .min(3, "Confirm Password must be 3 characters or more"),
-    rol: z.string().nonempty("Rol can't be empty"),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "The passwords do not match",
-    path: ["confirmPassword"],
-  });
-
-export type Usuario = z.infer<typeof UserSchema>;
+export function validateUsuario(data: Usuario): string | null {
+  if (data.id <= 0) {
+    return "El Id no puede estar vacío";
+  }
+  if (!data.user.trim()) {
+    return "El Usuario no puede estar vacío";
+  }
+  if (!data.email.trim()) {
+    return "El Email no puede estar vacío";
+  }
+  if (data.password.length < 3) {
+    return "La contraseña debe tener al menos 3 caracteres";
+  }
+  if (data.password !== data.confirmPassword) {
+    return "Las contraseñas no coinciden";
+  }
+  if (!data.confirmPassword.trim()) {
+    return "La confirmación de la contraseña no puede estar vacía";
+  }
+  if (!data.rol.trim()) {
+    return "El Rol no puede estar vacío";
+  }
+  return null; // Retorna null si no hay errores de validación
+}

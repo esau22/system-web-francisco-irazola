@@ -5,7 +5,7 @@ interface ButtonProps {
   type: "button" | "submit";
   label: string;
   className?: string;
-  onClick?: () => void;
+  onClick?: any;
   disabled?: boolean;
 }
 const Button: FC<ButtonProps> = ({
