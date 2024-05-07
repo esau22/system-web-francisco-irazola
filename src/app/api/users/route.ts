@@ -129,6 +129,7 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
 /*export async function PUT(req: Request) {
   try {
     const user = (await req.json()) as Usuario;
