@@ -1,8 +1,11 @@
+"use client";
 import Image from "next/image";
 import Container from "../shared/container";
 import Button from "../ui/button";
+import { useRouter } from "next/navigation";
 
 const Hero = () => {
+  const router = useRouter();
   return (
     <section id="home">
       <div className="relative w-full h-screen">
@@ -23,7 +26,12 @@ const Hero = () => {
               of our commitmentto you.
             </p>
             <div className="flex flex-col sm:flex-row items-center gap-5">
-              <Button type="button" label="Get started" className="w-full" />
+              <Button
+                type="button"
+                label="Get started"
+                className="w-full"
+                onClick={() => router.push("/documents/register")}
+              />
               <Button
                 type="button"
                 label="Watch reviews"

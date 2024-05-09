@@ -4,7 +4,7 @@ import { cn } from "@/libs/utils";
 import { RiLockLine, RiLockUnlockLine } from "react-icons/ri";
 
 interface InputProps {
-  type: "text" | "email" | "password";
+  type: "text" | "email" | "password" | "date" | "file";
   placeholder: string;
   name?: string;
   onChange?: any;
@@ -30,6 +30,10 @@ const Input: FC<InputProps> = ({
             ? "text"
             : type === "email"
             ? "email"
+            : type === "date"
+            ? "date"
+            : type === "file"
+            ? "file"
             : showPassword
             ? "text"
             : "password"
