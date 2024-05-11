@@ -4,15 +4,31 @@ import { prisma } from "@/libs/prisma"; // Importa Prisma
 
 export async function GET() {
   try {
-    const documents = await prisma.documento.findMany(); // Cambia el nombre de la variable para que sea plural
+    const documents = await prisma.documento.findMany({
+      include: {
+        area: true,
+        tipo: true,
+      },
+    });
+
+    // Mapear documentos para incluir los nombres de tipo y área
+    const formattedDocuments = documents.map((doc) => ({
+      ...doc,
+      tipo: doc.tipo.nombre,
+      area: doc.area.nombre,
+    }));
+
     return new Response(
-      JSON.stringify({ documents, message: "Todos los documentos cargados" }),
+      JSON.stringify({
+        documents: formattedDocuments,
+        message: "Todos los documentos cargados",
+      }),
       {
         status: 200,
       }
     );
   } catch (error) {
-    console.error("Error al obtener documentos:", error); // Mejora el manejo de errores
+    console.error("Error al obtener documentos:", error);
     return new Response(
       JSON.stringify({
         message: "Error al obtener documentos",
@@ -26,7 +42,6 @@ export async function GET() {
     );
   }
 }
-
 export async function POST(request: NextRequest) {
   try {
     const { remitente, email, asunto, fecha, informacion, tipo, area } =

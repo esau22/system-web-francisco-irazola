@@ -33,17 +33,33 @@ const Form = () => {
   const [errors, setErrors] = useState<string[]>([]);
   const [tipos, setTipos] = useState<Tipo[]>([]);
   const [areas, setAreas] = useState<Area[]>([]);
-  useEffect(() => {
-    // Realiza una solicitud al servidor para obtener las opciones de tipo y área
-    fetch("/api/tipo_document")
-      .then((response) => response.json())
-      .then((data: { tipos: Tipo[] }) => setTipos(data.tipos))
-      .catch((error) => console.error("Error al obtener tipos:", error));
 
-    fetch("/api/area")
-      .then((response) => response.json())
-      .then((data: { areas: Area[] }) => setAreas(data.areas))
-      .catch((error) => console.error("Error al obtener areas:", error));
+  useEffect(() => {
+    const fetchTipos = async () => {
+      try {
+        const response = await fetch("/api/tipo_document");
+        const data = await response.json();
+        setTipos(data.tipos);
+      } catch (error) {
+        console.error("Error al obtener tipos:", error);
+      }
+    };
+
+    fetchTipos();
+  }, []);
+
+  useEffect(() => {
+    const fetchAreas = async () => {
+      try {
+        const response = await fetch("/api/area");
+        const data = await response.json();
+        setAreas(data.areas);
+      } catch (error) {
+        console.error("Error al obtener áreas:", error);
+      }
+    };
+
+    fetchAreas();
   }, []);
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
