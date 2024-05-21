@@ -60,7 +60,7 @@ CREATE TABLE "Documento" (
     "remitente" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "fecha" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "informacion" TEXT NOT NULL,
+    "informacion" BYTEA NOT NULL,
     "estado_documento" "Estado_Documento" NOT NULL,
     "areaId" INTEGER NOT NULL,
     "tipoId" INTEGER NOT NULL,

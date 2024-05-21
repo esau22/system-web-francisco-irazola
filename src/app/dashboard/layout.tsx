@@ -12,6 +12,7 @@ interface DashboardLayoutProps {
 
 const DashboardLayout: FC<DashboardLayoutProps> = ({ children }) => {
   const [showMenu, setShowMenu] = useState(false);
+
   return (
     <section className={cn("text-gray-300")}>
       <Sidebar showMenu={showMenu} onClose={() => setShowMenu(false)} />

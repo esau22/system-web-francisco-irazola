@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isValidEmail } from "@/utils/isValidEmail";
 import { prisma } from "@/libs/prisma"; // Importa Prisma
+import fs from "fs";
 
 export async function GET() {
   try {
@@ -119,6 +120,9 @@ export async function POST(request: NextRequest) {
         }
       );
     }
+    // Sube el archivo PDF al almacenamiento en la nube (Supabase, AWS S3, etc.)
+    const informacionBuffer = fs.readFileSync(informacion);
+    // Aquí implementa la lógica para subir el archivo a tu proveedor de almacenamiento en la nube y obtén la URL del archivo
 
     // Crea el nuevo documento en la base de datos con Prisma
     const newDocument = await prisma.documento.create({
@@ -127,7 +131,7 @@ export async function POST(request: NextRequest) {
         email,
         asunto,
         fecha: new Date(fecha), // Convierte fecha a objeto Date
-        informacion,
+        informacion: informacionBuffer,
         estado_documento: "Pendiente", // Asigna un estado por defecto
         tipo: { connect: { id: tipo } },
         area: { connect: { id: area } },

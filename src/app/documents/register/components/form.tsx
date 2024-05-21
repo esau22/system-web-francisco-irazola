@@ -7,6 +7,8 @@ import { isValidEmail } from "@/utils/isValidEmail";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { RiFacebookFill, RiGithubFill, RiGoogleFill } from "react-icons/ri";
+//import fs from 'fs';
+const fs = require("fs");
 
 interface Tipo {
   id: number;
@@ -25,7 +27,7 @@ const Form = () => {
     email: "",
     asunto: "",
     fecha: "",
-    informacion: "",
+    informacion: null as ArrayBuffer | null,
     tipo: null as number | null, // Inicializar con null
     area: null as number | null, // Inicializar con null
   });
@@ -62,12 +64,30 @@ const Form = () => {
     fetchAreas();
   }, []);
 
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>
+  ) => {
     const { name, value } = e.target;
+    console.log(`Nombre del campo: ${name}, Valor seleccionado: ${value}`);
     setDocumento((prevDocument) => ({
       ...prevDocument,
       [name]: name === "tipo" || name === "area" ? parseInt(value, 10) : value,
     }));
+  };
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event: any) => {
+        const fileContent = event.target.result as ArrayBuffer;
+        setDocumento((prevDocument) => ({
+          ...prevDocument,
+          informacion: fileContent,
+        }));
+      };
+      reader.readAsArrayBuffer(file);
+    }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -75,7 +95,7 @@ const Form = () => {
     setErrors([]);
     const { remitente, email, asunto, fecha, informacion, tipo, area } =
       documento;
-
+    console.log("Datos del formulario antes de validar:", documento);
     if (
       !remitente ||
       !email ||
@@ -97,16 +117,29 @@ const Form = () => {
     try {
       const tipoId = tipo as number;
       const areaId = area as number;
+      //const informacionPath = informacion as File;
+
+      //const fileContent = fs.readFileSync(informacionPath);
+      const requestData = {
+        remitente,
+        email,
+        asunto,
+        fecha,
+        informacion, // Convertir a un array de bytes
+        tipo: tipoId,
+        area: areaId,
+      };
 
       const response = await fetch("/api/documents", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...documento, tipo: tipoId, area: areaId }),
+        body: JSON.stringify(requestData),
       });
+
       if (response.ok) {
-        router.push("/"); // Redireccionar a una página de éxito
+        router.push("/success"); // Redireccionar a una página de éxito
       } else {
         const errorData = await response.json();
         console.error("Error:", errorData.message);
@@ -154,10 +187,9 @@ const Form = () => {
           placeholder="Ingrese Fecha"
         />
         <Input
-          value={documento.informacion}
           type="file"
           name="informacion"
-          onChange={handleChange}
+          onChange={handleFileChange}
           placeholder="Ingrese Informacion"
         />
         <Select

@@ -67,7 +67,7 @@ model Documento {
   remitente String
   email String @unique
   fecha DateTime @default(now())
-  informacion String
+  informacion Bytes
   estado_documento Estado_Documento
   area Area @relation(fields: [areaId], references: [id])
   areaId Int

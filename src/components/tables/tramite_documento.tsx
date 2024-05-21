@@ -3,6 +3,7 @@ import ButtonIcon from "../ui/button-icon";
 import { FiEye } from "react-icons/fi";
 import { IoMdDownload } from "react-icons/io";
 import { useEffect, useState } from "react";
+import ModalDocuments from "../modal/modal_documents";
 
 interface Document {
   id: number;
@@ -15,9 +16,19 @@ interface Document {
   area: string;
   tipo: string;
 }
+
 const TramiteDocumento = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [selectedDocument, setSelectedDocument] = useState<Document | null>(
+    null
+  );
   const [documents, setDocuments] = useState<Document[]>([]);
   const [error, setError] = useState<string | null>(null);
+
+  const handleShowModal = (document: Document) => {
+    setSelectedDocument(document);
+    setShowModal(true);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -121,7 +132,10 @@ const TramiteDocumento = () => {
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
-                    <ButtonIcon icon={FiEye} />
+                    <ButtonIcon
+                      onClick={() => handleShowModal(document)}
+                      icon={FiEye}
+                    />
                   </div>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -134,6 +148,12 @@ const TramiteDocumento = () => {
           </tbody>
         </table>
       </div>
+      {showModal && (
+        <ModalDocuments
+          handleShowModal={() => setShowModal(false)}
+          selectedDocument={selectedDocument}
+        />
+      )}
     </div>
   );
 };
