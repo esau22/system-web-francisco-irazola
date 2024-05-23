@@ -1,10 +1,8 @@
 "use client";
 import { ChangeEvent, FormEvent, useState } from "react";
 import Button from "@/components/ui/button";
-import ButtonIcon from "@/components/ui/button-icon";
 import Input from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-import { RiGoogleFill, RiFacebookFill, RiGithubFill } from "react-icons/ri";
 import { isValidEmail } from "@/utils/isValidEmail";
 
 const Form = () => {
@@ -58,8 +56,8 @@ const Form = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Usuario creado:", data.user);
-        router.push("/auth/login");
+        //console.log("Usuario creado:", data.user);
+        //router.push("/dashboard");
       } else {
         const data = await response.json();
         setErrors([data.message]);
@@ -68,15 +66,23 @@ const Form = () => {
       console.error("Error al crear usuario:", error);
       setErrors(["Error al crear usuario"]);
     }
+    ResetUser();
+  };
+
+  const ResetUser = () => {
+    setUsuario((prevState) => ({
+      ...prevState,
+      user: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    }));
   };
 
   return (
     <div className="w-full max-w-md">
       <div className="mb-5">
         <h2 className="text-2xl font-semibold">Registrar</h2>
-        <p className="text-gray-500 text-sm">
-          Please enter your email and password to enter the application
-        </p>
       </div>
       <form onSubmit={handleSubmit} className="w-full">
         <Input
@@ -114,9 +120,9 @@ const Form = () => {
           onChange={handleChange}
           placeholder="Ingrese Rol"
         />
-        <Button type="submit" label="Create account" />
+        <Button type="submit" label="Crear Usuario" />
 
-        <div className="mt-5 mb-10 flex items-center justify-center gap-x-2">
+        {/*<div className="mt-5 mb-10 flex items-center justify-center gap-x-2">
           <p className="text-gray-500">have account?</p>
           <button
             type="button"
@@ -130,13 +136,13 @@ const Form = () => {
           <hr className="border-2" />
           <div className="flex justify-center">
             <span className="bg-white px-8 -mt-3">or</span>
-          </div>
+        </div>
         </div>
         <div className="flex items-center justify-center gap-x-4">
           <ButtonIcon icon={RiGoogleFill} />
           <ButtonIcon icon={RiFacebookFill} />
           <ButtonIcon icon={RiGithubFill} />
-        </div>
+        </div>*/}
       </form>
     </div>
   );

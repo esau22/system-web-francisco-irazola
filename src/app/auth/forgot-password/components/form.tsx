@@ -13,25 +13,25 @@ const Form = () => {
   return (
     <div className="w-full max-w-md">
       <div className="mb-5">
-        <h2 className="text-2xl font-semibold">Forgot password?</h2>
+        <h2 className="text-2xl font-semibold">Has olvidado tu contraseña?</h2>
         <p className="text-gray-500 text-sm">
-          Please enter your email and password to enter the application
+          Por favor ingresa tu correo electrónico para Recuperar tu cuenta
         </p>
       </div>
       <form className="w-full">
         <Input type="text" placeholder="Email" />
-        <Button type="submit" label="Send instructions" />
+        <Button type="submit" label="Enviar" />
         <div className="mt-5 mb-5 flex items-center justify-center gap-x-2">
-          <p className="text-gray-500">have account?</p>
+          <p className="text-gray-500">Tienes cuenta?</p>
           <button
             type="button"
             onClick={() => router.push("/auth/login")}
             className="font-semibold hover:text-primary transition-colors duration-300"
           >
-            Login
+            Iniciar Sesion
           </button>
         </div>
-        <div className="flex items-center justify-center gap-x-2">
+        {/*<div className="flex items-center justify-center gap-x-2">
           <p className="text-gray-500">dont have account?</p>
           <button
             type="button"
@@ -40,7 +40,7 @@ const Form = () => {
           >
             Register
           </button>
-        </div>
+  </div>*/}
       </form>
     </div>
   );

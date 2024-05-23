@@ -13,8 +13,6 @@ const Tramite = () => {
       <Title pageName="Tramite de Documento" />
       <div className="flex flex-col gap-10">
         <TramiteDocumento />
-        {/*<TramiteDocumento handleShowModal={handleShowModal} />
-        {showModal && <ModalDocuments handleShowModal={handleShowModal} />}*/}
       </div>
     </>
   );

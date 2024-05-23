@@ -46,9 +46,10 @@ const Form = () => {
   return (
     <div className="w-full max-w-md">
       <div className="mb-5">
-        <h2 className="text-2xl font-semibold">Welcome, Back!</h2>
+        <h2 className="text-2xl font-semibold">Bienvenido!</h2>
         <p className="text-gray-500 text-sm">
-          Please enter your email and password to enter the application
+          Por favor ingresa tu correo electrónico y contraseña para ingresar a
+          la aplicación
         </p>
       </div>
       <form onSubmit={handleSubmit} className="w-full">
@@ -70,22 +71,18 @@ const Form = () => {
             onClick={() => router.push("/auth/forgot-password")}
             className="text-gray-500 hover:text-primary transition-colors duration-300"
           >
-            forgot password?
+            Has olvidado tu Contraseña?
           </button>
         </div>
-        <Button
-          type="submit"
-          label="Login"
-          //onClick={() => router.push("/dashboard")}
-        />
+        <Button type="submit" label="Iniciar Sesion" />
         <div className="mt-5 mb-10 flex items-center justify-center gap-x-2">
-          <p className="text-gray-500">dont have account?</p>
+          <p className="text-gray-500">Volver Pagina Principal?</p>
           <button
             type="button"
-            onClick={() => router.push("/auth/register")}
+            onClick={() => router.push("/")}
             className="font-semibold hover:text-primary transition-colors duration-300"
           >
-            Register
+            Inicio
           </button>
         </div>
         <div className="mb-5">
