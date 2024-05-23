@@ -11,7 +11,8 @@ interface Document {
   remitente: string;
   email: string;
   fecha: string;
-  informacion: string;
+  //informacion: string;
+  informacion: { type: string; data: number[] };
   estado_documento: string;
   area: string;
   tipo: string;
@@ -24,11 +25,7 @@ const TramiteDocumento = () => {
   );
   const [documents, setDocuments] = useState<Document[]>([]);
   const [error, setError] = useState<string | null>(null);
-
-  const handleShowModal = (document: Document) => {
-    setSelectedDocument(document);
-    setShowModal(true);
-  };
+  const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,6 +42,16 @@ const TramiteDocumento = () => {
     };
     fetchData();
   }, []);
+
+  const generatePdf = (document: Document) => {
+    // Aquí deberías tener la lógica para convertir document.informacion a PDF
+    // Supongamos que pdfBlob contiene el PDF generado
+    const byteArray = new Uint8Array(document.informacion.data);
+    const blob = new Blob([byteArray], { type: "application/pdf" });
+    setPdfBlob(blob);
+    setSelectedDocument(document);
+    setShowModal(true);
+  };
 
   return (
     <div className="rounded-sm border-4 border-stroke bg-white px-2 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -133,7 +140,7 @@ const TramiteDocumento = () => {
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
                     <ButtonIcon
-                      onClick={() => handleShowModal(document)}
+                      onClick={() => generatePdf(document)}
                       icon={FiEye}
                     />
                   </div>
@@ -152,6 +159,7 @@ const TramiteDocumento = () => {
         <ModalDocuments
           handleShowModal={() => setShowModal(false)}
           selectedDocument={selectedDocument}
+          pdfBlob={pdfBlob} // Pasamos el blob del PDF al modal
         />
       )}
     </div>

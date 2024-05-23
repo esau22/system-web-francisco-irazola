@@ -1,32 +1,35 @@
+"use client";
+import { useEffect, useRef } from "react";
+
 interface Document {
   id: number;
   asunto: string;
   remitente: string;
   email: string;
   fecha: string;
-  informacion: string;
+  informacion: { type: string; data: number[] };
   estado_documento: string;
   area: string;
   tipo: string;
 }
 
-const ModalDocuments = ({
-  handleShowModal,
-  selectedDocument,
-}: {
+interface ModalDocumentsProps {
   handleShowModal: () => void;
   selectedDocument: Document | null;
-}) => {
-  if (!selectedDocument) return null;
-  console.log("llegando", selectedDocument);
+  pdfBlob: Blob | null; // Cambiado a ArrayBuffer
+}
 
-  const pdfData = btoa(
-    new Uint8Array().reduce(
-      (data, byte) => data + String.fromCharCode(byte),
-      ""
-    )
-  );
-  const pdfUrl = `data:application/pdf;base64,${pdfData}`;
+const ModalDocuments = ({ handleShowModal, pdfBlob }: ModalDocumentsProps) => {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    if (pdfBlob && iframeRef.current) {
+      const blob = new Blob([pdfBlob], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+      iframeRef.current.src = url;
+      return () => URL.revokeObjectURL(url);
+    }
+  }, [pdfBlob]);
 
   return (
     <div
@@ -50,24 +53,26 @@ const ModalDocuments = ({
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              fill-rule="evenodd"
+              fillRule="evenodd"
               d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
               clipRule="evenodd"
             ></path>
           </svg>
           <span className="sr-only">Close popup</span>
         </button>
-
-        <div className="p-5">
+        <div className="flex flex-col items-center">
           <h3 className="text-2xl mb-0.5 font-medium">Documento PDF</h3>
-          <p className="mb-4 text-sm font-normal text-gray-800">
+          {pdfBlob ? (
             <iframe
+              ref={iframeRef}
               title="PDF Viewer"
-              src={pdfUrl}
-              className="w-full h-[75vh]"
-              frameBorder="0"
+              width="180%"
+              height="400"
+              className="border-none mt-4"
             />
-          </p>
+          ) : (
+            <p>No se ha podido cargar el PDF.</p>
+          )}
         </div>
       </div>
     </div>
