@@ -11,7 +11,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="fixed left-0 top-0 w-full p-5 z-40 bg-black">
+      <header className="fixed left-0 top-0 w-full p-1 z-40 bg-green-600">
         <Container className="flex items-center justify-between">
           <section>
             <Logo />
