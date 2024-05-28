@@ -9,12 +9,16 @@ interface ServiceProps {
 
 const Service: FC<ServiceProps> = ({ image, title, description }) => {
   return (
-    <div className="space-y-5 flex flex-col items-center">
-      <div className="relative w-20 h-20">
-        <Image src={image} alt="Image" fill className="object-cover" />
+    <div className="max-w-sm bg-gray-400 border-gray-400 rounded-lg shadow-md dark:bg-white dark:border-white">
+      <div className="relative w-full h-72 mb-4">
+        <Image src={image} alt={title} fill className="object-cover" />
       </div>
-      <h3 className="text-2xl text-white font-semibold">{title}</h3>
-      <p className="text-center max-w-sm">{description}</p>
+      <h3 className="mb-2 text-xl font-semibold text-gray-800 dark:text-gray-800 text-center">
+        {title}
+      </h3>
+      <p className="text-gray-600 dark:text-gray-400 text-center">
+        {description}
+      </p>
     </div>
   );
 };

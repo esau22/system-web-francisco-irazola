@@ -82,7 +82,9 @@ const Form = () => {
   return (
     <div className="w-full max-w-md">
       <div className="mb-5">
-        <h2 className="text-2xl font-semibold">Registrar</h2>
+        <h2 className="text-2xl font-semibold text-gray-300 dark:text-gray-300">
+          Registrar Usuario
+        </h2>
       </div>
       <form onSubmit={handleSubmit} className="w-full">
         <Input

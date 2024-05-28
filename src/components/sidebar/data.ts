@@ -1,6 +1,5 @@
-import { AiFillSetting } from "react-icons/ai";
 import { IoMdAnalytics } from "react-icons/io";
-import { PiUsersThreeFill } from "react-icons/pi";
+import { PiUsersFill, PiUsersThreeFill } from "react-icons/pi";
 import {
   RiCalendarCheckFill,
   RiHome3Line,
@@ -31,9 +30,9 @@ export const data = {
       href: "/dashboard/register",
     },
     {
-      label: "Settings",
-      icon: AiFillSetting,
-      href: "/settings",
+      label: "Registro Usuarios",
+      icon: PiUsersFill,
+      href: "/dashboard/users",
     },
     {
       label: "UI",

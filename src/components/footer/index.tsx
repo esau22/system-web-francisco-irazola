@@ -28,7 +28,7 @@ const Footer = () => {
         </section>
       </Container>
       <div className="bg-primary p-5 text-white text-center">
-        <h5>&copy; 2023 All Rights Reserved</h5>
+        <h5>&copy; 2024 Todos los derechos reservados </h5>
       </div>
     </footer>
   );

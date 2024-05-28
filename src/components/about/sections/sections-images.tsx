@@ -6,7 +6,7 @@ const SectionImages = () => {
       <div className="lg:absolute -top-40 left-8">
         <div className="relative w-[80vw] mb-5 lg:w-48 h-72">
           <Image
-            src="/images/trainer-1.png"
+            src="/images/teacher/trainer-1.png"
             alt="Trainer"
             fill
             className="object-cover rounded-xl"
@@ -16,7 +16,7 @@ const SectionImages = () => {
       <div className="lg:absolute top-0 right-40">
         <div className="relative w-[80vw] mb-5 lg:w-48 h-72">
           <Image
-            src="/images/trainer-2.png"
+            src="/images/teacher/trainer-2.png"
             alt="Trainer"
             fill
             className="object-cover rounded-xl"
@@ -26,7 +26,7 @@ const SectionImages = () => {
       <div className="lg:absolute top-40 left-20">
         <div className="relative w-[80vw] mb-5 lg:w-64 h-48">
           <Image
-            src="/images/trainer-3.png"
+            src="/images/teacher/trainer-3.png"
             alt="Trainer"
             fill
             className="object-cover rounded-xl"
@@ -36,7 +36,7 @@ const SectionImages = () => {
       <div className="lg:absolute -top-64 right-52">
         <div className="relative w-[80vw] mb-5 lg:w-64 h-48">
           <Image
-            src="/images/trainer-4.png"
+            src="/images/teacher/trainer-4.png"
             alt="Trainer"
             fill
             className="object-cover rounded-xl"

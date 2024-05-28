@@ -10,7 +10,7 @@ const About = () => {
       className="min-h-screen flex items-center justify-center"
     >
       <Container>
-        <SubTitle title="Why Join With" titlePrimary="Us?" />
+        <SubTitle title="Why Join With" titlePrimary="Nosotros?" />
         <div className="flex flex-col lg:flex-row items-center justify-between gap-10">
           <SectionList />
           <SectionImages />

@@ -1,21 +1,21 @@
-import TramiteDocumento from "@/components/tables/tramite_documento";
+import Users from "@/components/tables/users";
 import Title from "@/components/ui/title";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Tramite Page | Dashboard",
+  title: "Usuario Page | Dashboard",
   description: "This is Tables page for TailAdmin Next.js",
   // other metadata
 };
-const Tramite = () => {
+const User = () => {
   return (
     <>
-      <Title pageName="Tramite de Documento" />
+      <Title pageName="Registro de Usuarios" />
       <div className="flex flex-col ">
-        <TramiteDocumento />
+        <Users />
       </div>
     </>
   );
 };
 
-export default Tramite;
+export default User;

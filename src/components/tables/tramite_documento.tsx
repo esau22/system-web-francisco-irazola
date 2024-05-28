@@ -90,6 +90,10 @@ const TramiteDocumento = () => {
     }
   };
 
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-CA"); // 'en-CA' is the locale for ISO 8601 date format
+  };
+
   const generatePdf = (document: Document) => {
     const byteArray = new Uint8Array(document.informacion.data);
     const blob = new Blob([byteArray], { type: "application/pdf" });
@@ -99,93 +103,58 @@ const TramiteDocumento = () => {
   };
 
   return (
-    <div className="rounded-sm border-4 border-stroke bg-white px-2 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      <h4 className="mb-2 text-xl font-semibold text-black dark:text-black">
+    <div className="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
+      <h4 className="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-800">
         Lista de Tramites
       </h4>
       <div className="max-w-full overflow-x-auto">
-        <table className="w-full table-auto">
+        <table className="w-full whitespace-no-wrap">
           <thead>
-            <tr className="bg-gray-2 text-left dark:bg-meta-2">
-              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-black xl:pl-11">
-                N°Tramite
-              </th>
-              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-black">
-                Remitente
-              </th>
-              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-black">
-                Email
-              </th>
-              <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-black">
-                Asunto
-              </th>
-              <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-black">
-                Fecha
-              </th>
-              <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-black">
-                Tipo Documento
-              </th>
-              <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-black">
-                Área
-              </th>
-              <th className="py-4 px-4 font-medium text-black dark:text-black">
-                Estado
-              </th>
-              <th className="py-4 px-4 font-medium text-black dark:text-black">
-                Visualizar
-              </th>
-              <th className="py-4 px-4 font-medium text-black dark:text-black">
-                Eliminar
-              </th>
+            <tr className="text-xs font-semibold tracking-wide text-left text-gray-600 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+              <th className="px-4 py-3">N°</th>
+              <th className="px-4 py-3">Remitente</th>
+              <th className="px-4 py-3">Email</th>
+              <th className="px-4 py-3">Asunto</th>
+              <th className="px-4 py-3">Fecha</th>
+              <th className="px-4 py-3">Tipo Documento</th>
+              <th className="px-4 py-3">Área</th>
+              <th className="px-4 py-3">Estado</th>
+              <th className="px-4 py-3">Acciones</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
             {Array.isArray(documents) &&
               documents.map((document, id) => (
-                <tr key={id}>
-                  <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark sm:pl-11">
-                    <h5 className="font-medium text-black dark:text-black">
-                      {document.id}
-                    </h5>
+                <tr key={id} className="text-gray-700 dark:text-gray-400">
+                  <td className="px-4 py-3 text-sm font-semibold">
+                    {document.id}
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-black">
-                      {document.remitente}
-                    </p>
+                  <td className="px-4 py-3 text-sm font-semibold">
+                    {document.remitente}
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-black">
-                      {document.email}
-                    </p>
+                  <td className="px-4 py-3 text-sm font-semibold">
+                    {document.email}
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-black">
-                      {document.asunto}
-                    </p>
+                  <td className="px-4 py-3 text-sm font-semibold">
+                    {document.asunto}
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-black">
-                      {document.fecha}
-                    </p>
+                  <td className="px-4 py-3 text-sm font-semibold">
+                    {formatDate(document.fecha)}
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-black">
-                      {document.tipo}
-                    </p>
+                  <td className="px-4 py-3 text-sm font-semibold">
+                    {document.tipo}
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-black">
-                      {document.area}
-                    </p>
+                  <td className="px-4 py-3 text-sm font-semibold">
+                    {document.area}
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <td className="px-4 py-3 text-xs font-semibold">
                     <select
-                      className={`rounded-md border border-gray-300 bg-white py-1 px-2 text-black ${
+                      className={`rounded-full px-2 py-1 font-semibold leading-tight ${
                         document.estado_documento === "Pendiente"
-                          ? "text-green-300 bg-green-100"
+                          ? "text-green-700 bg-green-100 dark:bg-green-700 dark:text-green-100"
                           : document.estado_documento === "Finalizado"
-                          ? "text-red-900 bg-red-100"
-                          : "text-yellow-500 bg-yellow-100"
+                          ? "text-red-700 bg-red-100 dark:bg-red-700 dark:text-red-100"
+                          : ""
                       }`}
                       value={document.estado_documento}
                       onChange={(e) => {
@@ -197,16 +166,12 @@ const TramiteDocumento = () => {
                       <option value="Finalizado">Finalizado</option>
                     </select>
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <div className="flex items-center space-x-3.5">
+                  <td className="px-4 py-3">
+                    <div className="flex items-center space-x-2 text-sm">
                       <ButtonIcon
                         onClick={() => generatePdf(document)}
                         icon={FiEye}
                       />
-                    </div>
-                  </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <div className="flex items-center space-x-3.5">
                       <ButtonIcon
                         onClick={() => deleteDocument(document.id)}
                         icon={RiDeleteBin5Fill}

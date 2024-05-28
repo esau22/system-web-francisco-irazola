@@ -14,7 +14,7 @@ const Trainers = () => {
       className="min-h-screen flex items-center justify-center"
     >
       <Container>
-        <SubTitle title="Join Out" titlePrimary="Trainer" />
+        <SubTitle title="Join Out" titlePrimary="Plana de Docentes" />
         <div>
           <Swiper
             spaceBetween={50}
@@ -34,7 +34,7 @@ const Trainers = () => {
             <SwiperSlide>
               <div className="relative w-full h-[70vh] mx-auto">
                 <Image
-                  src="/images/trainer-1.png"
+                  src="/images/teacher/trainer-1.png"
                   alt="Trainer"
                   fill
                   className="object-cover rounded-xl shadow-xl"
@@ -44,7 +44,7 @@ const Trainers = () => {
             <SwiperSlide>
               <div className="relative w-full h-[70vh] mx-auto">
                 <Image
-                  src="/images/trainer-2.png"
+                  src="/images/teacher/trainer-2.png"
                   alt="Trainer"
                   fill
                   className="object-cover rounded-xl shadow-xl"
@@ -54,7 +54,7 @@ const Trainers = () => {
             <SwiperSlide>
               <div className="relative w-full h-[70vh] mx-auto">
                 <Image
-                  src="/images/trainer-3.png"
+                  src="/images/teacher/trainer-3.png"
                   alt="Trainer"
                   fill
                   className="object-cover rounded-xl shadow-xl"
@@ -64,7 +64,7 @@ const Trainers = () => {
             <SwiperSlide>
               <div className="relative w-full h-[70vh] mx-auto">
                 <Image
-                  src="/images/trainer-4.png"
+                  src="/images/teacher/trainer-4.png"
                   alt="Trainer"
                   fill
                   className="object-cover rounded-xl shadow-xl"
@@ -74,7 +74,7 @@ const Trainers = () => {
             <SwiperSlide>
               <div className="relative w-full h-[70vh] mx-auto">
                 <Image
-                  src="/images/trainer-5.png"
+                  src="/images/teacher/trainer-5.png"
                   alt="Trainer"
                   fill
                   className="object-cover rounded-xl shadow-xl"
@@ -84,7 +84,7 @@ const Trainers = () => {
             <SwiperSlide>
               <div className="relative w-full h-[70vh] mx-auto">
                 <Image
-                  src="/images/trainer-6.png"
+                  src="/images/teacher/trainer-6.png"
                   alt="Trainer"
                   fill
                   className="object-cover rounded-xl shadow-xl"

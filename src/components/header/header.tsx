@@ -10,7 +10,7 @@ const Header = () => {
           type="text"
           placeholder="Search"
           className={cn(
-            "w-25 -mb-5 ml-44 hidden md:hidden sm:hidden lg:inline-block flex-grow"
+            "w-25 -mb-5 ml-56 hidden md:hidden sm:hidden lg:inline-block flex-grow"
           )}
         />
         <div className="sm:ml-auto sm:order-2">

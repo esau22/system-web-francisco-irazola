@@ -130,10 +130,62 @@ export async function POST(request: NextRequest) {
   }
 }
 
-/*export async function PUT(req: Request) {
+export async function DELETE(request: NextRequest): Promise<NextResponse> {
+  try {
+    const { id } = await request.json();
+
+    // Validar los datos de la solicitud
+    if (!id) {
+      return new NextResponse(JSON.stringify({ message: "id is required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    // Actualizar el estado del documento
+    await prisma.usuario.delete({
+      where: { id: parseInt(id, 10) }, // Asegúrate de convertir el ID a número si es necesario
+    });
+
+    // Retornar la respuesta de éxito
+    return new NextResponse(
+      JSON.stringify({
+        message: "Usuario eliminado exitosamente",
+      }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  } catch (error: unknown) {
+    // Establecer el mensaje de error predeterminado
+    let errorMessage = "Error al eliminar el usuario";
+
+    // Verificar si el error es de tipo Error
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    // Registrar el error para depuración
+    console.error("Error al eliminar el usuario:", error);
+
+    // Retornar una respuesta de error
+    return new NextResponse(
+      JSON.stringify({
+        message: errorMessage,
+      }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
+}
+
+export async function PUT(req: Request) {
   try {
     const user = (await req.json()) as Usuario;
-    console.log("🚀 ~ file: route.ts:41 ~ PUT ~ user:", user);
+    //console.log("🚀 ~ file: route.ts:41 ~ PUT ~ user:", user);
 
     const userUpdated = await prisma.usuario.update({
       where: { id: user.id },
@@ -145,32 +197,28 @@ export async function POST(request: NextRequest) {
         status: 200,
       }
     );
-  } catch (error) {
-    console.log("🚀 ~ file: route.ts:53 ~ PUT ~ error:", error);
-  }
-}
+  } catch (error: unknown) {
+    //console.log("🚀 ~ file: route.ts:78 ~ PUT ~ error:", error);
+    // Establecer el mensaje de error predeterminado
+    let errorMessage = "Error al actualizar el rol del usuario";
 
-export async function DELETE(req: Request) {
-  try {
-    const { searchParams } = new URL(req.url);
-    const id = Number(searchParams.get("id"));
+    // Verificar si el error es de tipo Error
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
 
-    const postId =
-      typeof id === "string"
-        ? parseInt(id)
-        : Array.isArray(id)
-        ? parseInt(id[0])
-        : id;
-    const userDeleted = await prisma.usuario.delete({
-      where: { id: postId },
-    });
-    return new Response(
-      JSON.stringify({ userDeleted, message: "Se ha eliminado con éxito" }),
+    // Registrar el error para depuración
+    console.error("Error al actualizar el rol del usuario:", error);
+
+    // Retornar una respuesta de error
+    return new NextResponse(
+      JSON.stringify({
+        message: errorMessage,
+      }),
       {
-        status: 200,
+        status: 500,
+        headers: { "Content-Type": "application/json" },
       }
     );
-  } catch (error) {
-    console.log("🚀 ~ file: route.ts:78 ~ DELETE ~ error:", error);
   }
-}*/
+}

@@ -46,7 +46,7 @@ const DropdownUser = () => {
       >
         <span className="h-12 w-12 rounded-full">
           <Image
-            className="rounded-full"
+            className="rounded-full object-fill"
             width={112}
             height={112}
             src={"/sadmanshakib.jpg"}
@@ -64,7 +64,7 @@ const DropdownUser = () => {
           dropdownOpen === true ? "block" : "hidden"
         }`}
       >
-        <ul className="flex flex-col gap-5 px-6 py-7.5">
+        <ul className="absolute right-6 w-40 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700">
           <li>
             {data.routes.map((route) => (
               <Link

@@ -4,19 +4,19 @@ import { IoMdSettings, IoMdLogOut } from "react-icons/io";
 export const data = {
   routes: [
     {
-      label: "My Profile",
+      label: "Perfil",
       icon: FaRegUser,
       href: "#",
     },
     {
-      label: "Settings",
+      label: "Configuracion",
       icon: IoMdSettings,
       href: "#",
     },
     {
-      label: "Log Out",
+      label: "Cerrar Sesion",
       icon: IoMdLogOut,
-      href: "#",
+      href: "/",
     },
   ],
 };

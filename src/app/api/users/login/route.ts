@@ -1,6 +1,5 @@
-import { Usuario } from "@prisma/client";
 import { prisma } from "@/libs/prisma";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 
 export async function POST(request: NextRequest) {
@@ -57,8 +56,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Devolver algún identificador único del usuario
-    return new Response(
+    // Configuración directa de la cookie de autenticación
+    const cookie = `auth=true; Path=/; HttpOnly`;
+    const response = new Response(
       JSON.stringify({
         message: "Inicio de sesión exitoso",
         userId: user.id,
@@ -67,9 +67,13 @@ export async function POST(request: NextRequest) {
         status: 200,
         headers: {
           "Content-Type": "application/json",
+          // Configurar la cookie en el encabezado de la respuesta
+          "Set-Cookie": cookie,
         },
       }
     );
+
+    return response;
   } catch (error) {
     console.error("Error al iniciar sesión:", error);
     return new Response(

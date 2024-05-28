@@ -31,7 +31,7 @@ const Form = () => {
 
       if (response.ok) {
         // Si el inicio de sesión es exitoso, redirige al usuario al dashboard
-        document.cookie = `token=${data.token}; path=/`;
+        document.cookie = `auth=true; path=/; HttpOnly`;
         router.push("/dashboard");
       } else {
         // Si hay un error en el inicio de sesión, muestra el mensaje de error
