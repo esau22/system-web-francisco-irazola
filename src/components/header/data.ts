@@ -6,12 +6,12 @@ export const data = {
     {
       label: "Perfil",
       icon: FaRegUser,
-      href: "#",
+      href: "/dashboard/perfil",
     },
     {
       label: "Configuracion",
       icon: IoMdSettings,
-      href: "#",
+      href: "/dashboard/setting",
     },
     {
       label: "Cerrar Sesion",

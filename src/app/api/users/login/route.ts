@@ -57,7 +57,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Configuración directa de la cookie de autenticación
-    const cookie = `auth=true; Path=/; HttpOnly`;
+    const cookie = `auth=true; Path=/; HttpOnly; SameSite=Lax`;
+    //const cookie = `auth=true; Path=/; HttpOnly; SameSite=Lax; Secure`;
     const response = new Response(
       JSON.stringify({
         message: "Inicio de sesión exitoso",
@@ -88,4 +89,24 @@ export async function POST(request: NextRequest) {
       }
     );
   }
+}
+
+export async function DELETE(request: NextRequest) {
+  // Configurar la cookie con una fecha de expiración en el pasado para eliminarla
+  const expiredCookie = `auth=; Path=/; HttpOnly; Expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+  const response = new Response(
+    JSON.stringify({
+      message: "Sesión cerrada exitosamente",
+    }),
+    {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+        // Configurar la cookie en el encabezado de la respuesta
+        "Set-Cookie": expiredCookie,
+      },
+    }
+  );
+
+  return response;
 }

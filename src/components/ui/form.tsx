@@ -93,6 +93,7 @@ const Form = () => {
           name="user"
           onChange={handleChange}
           placeholder="Ingrese Usuario"
+          className="text-gray-500"
         />
         <Input
           value={usuario.email}
@@ -100,6 +101,7 @@ const Form = () => {
           name="email"
           onChange={handleChange}
           placeholder="Ingrese Email"
+          className="text-gray-500"
         />
         <Input
           value={usuario.password}
@@ -107,13 +109,15 @@ const Form = () => {
           name="password"
           onChange={handleChange}
           placeholder="Ingrese Passwoard"
+          className="text-gray-500"
         />
         <Input
           value={usuario.confirmPassword}
           type="password"
           name="confirmPassword"
           onChange={handleChange}
-          placeholder="Ingrese Passwoard"
+          placeholder="Confirme Passwoard"
+          className="text-gray-500"
         />
         <Input
           value={usuario.rol}
@@ -121,6 +125,7 @@ const Form = () => {
           name="rol"
           onChange={handleChange}
           placeholder="Ingrese Rol"
+          className="text-gray-500"
         />
         <Button type="submit" label="Crear Usuario" />
 
