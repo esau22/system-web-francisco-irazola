@@ -4,6 +4,9 @@ import { FiEye } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import ModalDocuments from "../modal/modal_documents";
 import { RiDeleteBin5Fill } from "react-icons/ri";
+import { MdOutlineEmail } from "react-icons/md";
+import ModalUser from "../modal/modal_user";
+import FormEmail from "../ui/formEmail";
 
 interface Document {
   id: number;
@@ -19,6 +22,7 @@ interface Document {
 
 const TramiteDocumento = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showModalEmail, setShowModalEmail] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState<Document | null>(
     null
   );
@@ -102,6 +106,11 @@ const TramiteDocumento = () => {
     setShowModal(true);
   };
 
+  const openEmailModal = (document: Document) => {
+    setSelectedDocument(document);
+    setShowModalEmail(true);
+  };
+
   return (
     <div className="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
       <h4 className="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-800">
@@ -176,6 +185,10 @@ const TramiteDocumento = () => {
                         onClick={() => deleteDocument(document.id)}
                         icon={RiDeleteBin5Fill}
                       />
+                      <ButtonIcon
+                        onClick={() => openEmailModal(document)}
+                        icon={MdOutlineEmail}
+                      />
                     </div>
                   </td>
                 </tr>
@@ -189,6 +202,15 @@ const TramiteDocumento = () => {
           selectedDocument={selectedDocument}
           pdfBlob={pdfBlob}
         />
+      )}
+      ?:
+      {showModalEmail && selectedDocument && (
+        <ModalUser handleShowModal={() => setShowModal(false)}>
+          <FormEmail
+            handleShowModal={setShowModalEmail}
+            selectedDocument={selectedDocument}
+          />
+        </ModalUser>
       )}
     </div>
   );

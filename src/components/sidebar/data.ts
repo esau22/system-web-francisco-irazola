@@ -1,5 +1,4 @@
-import { IoMdAnalytics } from "react-icons/io";
-import { PiUsersFill, PiUsersThreeFill } from "react-icons/pi";
+import { PiUsersFill } from "react-icons/pi";
 import {
   RiCalendarCheckFill,
   RiHome3Line,
@@ -25,19 +24,9 @@ export const data = {
       href: "/dashboard/tramite",
     },
     {
-      label: "Registrar Usuario",
-      icon: PiUsersThreeFill,
-      href: "/dashboard/register",
-    },
-    {
-      label: "Registro Usuarios",
+      label: "Registro de Usuarios",
       icon: PiUsersFill,
       href: "/dashboard/users",
-    },
-    {
-      label: "UI",
-      icon: IoMdAnalytics,
-      href: "/ui",
     },
     {
       label: "Auth",
