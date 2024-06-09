@@ -33,6 +33,18 @@ const Hero = () => {
                 className="w-full"
                 onClick={() => router.push("/documents/register")}
               />
+              <a
+                href="https://cdn.www.gob.pe/uploads/document/file/520793/formulario-unico-de-tramites.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full"
+              >
+                <Button
+                  type="button"
+                  label="Descargar FUT"
+                  className="w-full"
+                />
+              </a>
             </div>
           </div>
         </Container>

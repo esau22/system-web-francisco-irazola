@@ -4,7 +4,7 @@ import { cn } from "@/libs/utils";
 
 interface Option {
   label: string;
-  value: number;
+  value: any;
 }
 interface SelectProps {
   name?: string;

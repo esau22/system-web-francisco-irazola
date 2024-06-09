@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { MdAdd } from "react-icons/md";
 import ModalUser from "../modal/modal_user";
 import Form from "@/components/ui/form";
+import Select from "../ui/select";
 
 interface User {
   id: number;
@@ -118,7 +119,7 @@ const User: React.FC = () => {
                   {maskPassword(user.password)}
                 </td>
                 <td className="px-4 py-3 text-sm font-semibold">
-                  <select
+                  <Select
                     className={`rounded-full px-2 py-1 font-semibold leading-tight ${
                       user.rol === "Administrador"
                         ? "text-green-700 bg-green-100 dark:bg-green-700 dark:text-green-100"
@@ -127,14 +128,15 @@ const User: React.FC = () => {
                         : ""
                     }`}
                     value={user.rol}
-                    onChange={(e) => {
+                    onChange={(e: any) => {
                       const newStatus = e.target.value;
                       updateUser(user.id, newStatus);
                     }}
-                  >
-                    <option value="Administrador">Administrador</option>
-                    <option value="Empleado">Empleado</option>
-                  </select>
+                    options={[
+                      { label: "Administrador", value: "Administrador" },
+                      { label: "Empleado", value: "Empleado" },
+                    ]}
+                  />
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex items-center space-x-2 text-md">

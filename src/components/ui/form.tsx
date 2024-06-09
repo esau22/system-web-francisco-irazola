@@ -2,19 +2,21 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
-import { useRouter } from "next/navigation";
 import { isValidEmail } from "@/utils/isValidEmail";
+import Modal from "./modal";
+import Select from "./select";
 
 const Form = () => {
-  const router = useRouter();
   const [usuario, setUsuario] = useState({
     user: "",
     email: "",
     password: "",
     confirmPassword: "",
-    rol: "",
+    rol: "Administrador",
   });
   const [errors, setErrors] = useState<string[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(true);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -32,20 +34,27 @@ const Form = () => {
 
     if (!user || !email || !password || !confirmPassword || !rol) {
       setErrors(["Todos los campos son obligatorios"]);
+      setIsSuccess(false);
+      setIsModalOpen(true);
       return;
     }
 
     if (!isValidEmail(email)) {
       setErrors(["Email no válido"]);
+      setIsSuccess(false);
+      setIsModalOpen(true);
       return;
     }
 
     if (password !== confirmPassword) {
       setErrors(["La contraseña y la confirmación no coinciden"]);
+      setIsSuccess(false);
+      setIsModalOpen(true);
       return;
     }
 
     try {
+      //console.log("Datos del usuario:", usuario);
       const response = await fetch("/api/users", {
         method: "POST",
         headers: {
@@ -58,15 +67,24 @@ const Form = () => {
         const data = await response.json();
         //console.log("Usuario creado:", data.user);
         //router.push("/dashboard");
+        setIsSuccess(true);
+        setIsModalOpen(true);
       } else {
         const data = await response.json();
+        //console.log("---->", data);
         setErrors([data.message]);
+        setIsSuccess(false);
+        setIsModalOpen(true);
       }
     } catch (error) {
       console.error("Error al crear usuario:", error);
       setErrors(["Error al crear usuario"]);
+      setIsSuccess(true);
+      setIsModalOpen(true);
     }
-    ResetUser();
+    if (!isSuccess) {
+      ResetUser();
+    }
   };
 
   const ResetUser = () => {
@@ -77,6 +95,13 @@ const Form = () => {
       password: "",
       confirmPassword: "",
     }));
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    if (!isSuccess || isSuccess) {
+      ResetUser();
+    }
   };
 
   return (
@@ -119,13 +144,16 @@ const Form = () => {
           placeholder="Confirme Passwoard"
           className="text-gray-500"
         />
-        <Input
-          value={usuario.rol}
-          type="text"
+
+        <Select
+          className="text-gray-600"
+          value={usuario.rol ?? ""}
           name="rol"
           onChange={handleChange}
-          placeholder="Ingrese Rol"
-          className="text-gray-500"
+          options={[
+            { label: "Administrador", value: "Administrador" },
+            { label: "Empleado", value: "Empleado" },
+          ]}
         />
         <Button type="submit" label="Crear Usuario" />
 
@@ -151,6 +179,23 @@ const Form = () => {
           <ButtonIcon icon={RiGithubFill} />
         </div>*/}
       </form>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        label={
+          isSuccess
+            ? "Usuario Registrado exitosamente!"
+            : "❌ Error al registrar usuario ❌"
+        }
+        description={
+          isSuccess
+            ? "El Usuario ha sido registrado correctamente."
+            : errors.length > 0
+            ? errors.join(", ")
+            : "Error desconocido."
+        }
+        isSuccess={isSuccess}
+      />
     </div>
   );
 };

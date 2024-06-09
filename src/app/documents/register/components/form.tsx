@@ -2,6 +2,7 @@
 import Button from "@/components/ui/button";
 import ButtonIcon from "@/components/ui/button-icon";
 import Input from "@/components/ui/input";
+import Modal from "@/components/ui/modal";
 import Select from "@/components/ui/select";
 import { isValidEmail } from "@/utils/isValidEmail";
 import { useRouter } from "next/navigation";
@@ -30,9 +31,11 @@ const Form = () => {
     area: null as number | null,
   });
 
-  const [errors, setErrors] = useState<string[]>([]);
+  const [errors, setErrors] = useState(false);
   const [tipos, setTipos] = useState<Tipo[]>([]);
   const [areas, setAreas] = useState<Area[]>([]);
+  const [loading, setLoading] = useState({ tipos: true, areas: true });
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchTipos = async () => {
@@ -42,6 +45,8 @@ const Form = () => {
         setTipos(data.tipos);
       } catch (error) {
         console.error("Error al obtener tipos:", error);
+      } finally {
+        setLoading((prev) => ({ ...prev, tipos: false }));
       }
     };
 
@@ -56,6 +61,8 @@ const Form = () => {
         setAreas(data.areas);
       } catch (error) {
         console.error("Error al obtener áreas:", error);
+      } finally {
+        setLoading((prev) => ({ ...prev, areas: false }));
       }
     };
 
@@ -90,7 +97,7 @@ const Form = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setErrors([]);
+    //setErrors([]);
     const { remitente, email, asunto, fecha, informacion, tipo, area } =
       documento;
 
@@ -103,12 +110,12 @@ const Form = () => {
       !tipo ||
       !area
     ) {
-      setErrors(["Todos los campos son obligatorios"]);
+      setErrors(true);
       return;
     }
-
+    setErrors(false);
+    //let errors = {};
     if (!isValidEmail(email)) {
-      setErrors(["Email no válido"]);
       return;
     }
 
@@ -145,29 +152,33 @@ const Form = () => {
           if (response.ok) {
             const responseData = await response.json();
             console.log("Documento creado exitosamente:", responseData);
-            router.push("/");
+            //router.push("/");
           } else {
             const errorData = await response.json();
             console.error(
               "Error en la respuesta del servidor:",
               errorData.message
             );
-            setErrors([errorData.message]);
           }
         }
       };
       reader.readAsArrayBuffer(informacion);
     } catch (error: any) {
       console.error("Error al enviar el formulario:", error);
-      setErrors([error.message]);
     }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setTimeout(() => {
+      router.push("/");
+    }, 1000); // Espera 1 segundo antes de redirigir
   };
 
   return (
     <div className="w-full max-w-md">
       <div className="mb-5">
-        <h2 className="text-2xl font-semibold">Registrar Documento</h2>
-        <p className="text-gray-500 text-sm">Rellene los Datos Necesarios</p>
+        <h2 className="text-2xl font-semibold">Registrar Documento </h2>
       </div>
       <form className="w-full" onSubmit={handleSubmit}>
         <Input
@@ -206,7 +217,7 @@ const Form = () => {
           placeholder="Ingrese Informacion"
         />
         <Select
-          value={documento.area}
+          value={documento.area ?? ""}
           onChange={handleChange}
           name="area"
           options={
@@ -216,7 +227,7 @@ const Form = () => {
           }
         />
         <Select
-          value={documento.tipo}
+          value={documento.tipo ?? ""}
           onChange={handleChange}
           name="tipo"
           options={
@@ -225,9 +236,12 @@ const Form = () => {
               : []
           }
         />
-
         <Button type="submit" label="Enviar Documento" />
-
+        <div className="mt-5 mb-10 flex items-center justify-center gap-x-2">
+          {errors && (
+            <p className="text-red-500">Todos los campos son requeridos</p>
+          )}
+        </div>
         <div className="mt-5 mb-10 flex items-center justify-center gap-x-2">
           <p className="text-gray-500">have account?</p>*{" "}
           <button
@@ -250,6 +264,12 @@ const Form = () => {
           <ButtonIcon icon={RiGithubFill} />
         </div>
       </form>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        label="🎉 Documento enviado exitosamente! 🎉"
+        description="Tu documento ha sido enviado correctamente."
+      />
     </div>
   );
 };

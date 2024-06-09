@@ -1,5 +1,7 @@
 "use client";
 import { useState, ChangeEvent, FormEvent } from "react";
+import Input from "./input";
+import Modal from "./modal";
 
 interface FormEmailProps {
   handleShowModal: (show: boolean) => void;
@@ -8,15 +10,19 @@ interface FormEmailProps {
     remitente: string;
     email: string;
     asunto: string;
+    subject?: string;
   };
 }
 
 const FormEmail = ({ handleShowModal, selectedDocument }: FormEmailProps) => {
   const [emailContent, setEmailContent] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(true);
 
   const sendEmail = async (e: FormEvent) => {
     e.preventDefault();
+    setErrorMessage("");
 
     try {
       const response = await fetch("/api/email", {
@@ -27,25 +33,38 @@ const FormEmail = ({ handleShowModal, selectedDocument }: FormEmailProps) => {
         body: JSON.stringify({
           emailContent,
           email: selectedDocument.email,
-          asunto: selectedDocument.asunto,
+          asunto: selectedDocument.subject,
         }),
       });
 
       if (!response.ok) {
-        throw new Error("Error al enviar correo electrónico");
+        const errorData = await response.json();
+        setErrorMessage(errorData.message || "Respuesta no enviada.");
+        setIsSuccess(false);
+      } else {
+        setIsSuccess(true);
       }
-
-      handleShowModal(false);
     } catch (error) {
       setErrorMessage(
         "No se pudo enviar el correo electrónico. Por favor, inténtelo de nuevo."
       );
+      setIsSuccess(false);
       console.error(error);
+    } finally {
+      setIsModalOpen(true);
     }
   };
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setEmailContent(e.target.value);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    if (isSuccess) {
+      setEmailContent("");
+      handleShowModal(false);
+    }
   };
 
   return (
@@ -61,33 +80,22 @@ const FormEmail = ({ handleShowModal, selectedDocument }: FormEmailProps) => {
             <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
               Remitente
             </label>
-            <input
+            <Input
               type="text"
               value={selectedDocument.remitente}
-              disabled
-              className="w-full px-3 py-2 text-gray-700 dark:text-gray-300 border rounded-lg focus:outline-none focus:shadow-outline"
+              name="remitente"
+              className="w-full px-3 py-2 text-gray-700 dark:text-gray-600 border rounded-lg focus:outline-none focus:shadow-outline"
             />
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
               Email
             </label>
-            <input
-              type="email"
-              value={selectedDocument.email}
-              disabled
-              className="w-full px-3 py-2 text-gray-700 dark:text-gray-300 border rounded-lg focus:outline-none focus:shadow-outline"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
-              Asunto
-            </label>
-            <input
+            <Input
               type="text"
-              value={selectedDocument.asunto}
-              disabled
-              className="w-full px-3 py-2 text-gray-700 dark:text-gray-300 border rounded-lg focus:outline-none focus:shadow-outline"
+              value={selectedDocument.email}
+              name="email"
+              className="w-full px-3 py-2 text-gray-700 dark:text-gray-600 border rounded-lg focus:outline-none focus:shadow-outline"
             />
           </div>
           <div className="mb-4">
@@ -98,7 +106,7 @@ const FormEmail = ({ handleShowModal, selectedDocument }: FormEmailProps) => {
               value={emailContent}
               onChange={handleChange}
               placeholder="Escriba su mensaje aquí..."
-              className="w-full px-3 py-2 text-gray-700 dark:text-gray-300 border rounded-lg focus:outline-none focus:shadow-outline"
+              className="w-full px-3 py-2 text-gray-700 dark:text-gray-600 border rounded-lg focus:outline-none focus:shadow-outline"
             />
           </div>
           <div className="flex justify-end">
@@ -117,6 +125,19 @@ const FormEmail = ({ handleShowModal, selectedDocument }: FormEmailProps) => {
             </button>
           </div>
         </form>
+        <Modal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          label={
+            isSuccess
+              ? "🎉 Envio exitoso! 🎉"
+              : "❌ Error de Envio de Respuesta ❌"
+          }
+          description={
+            isSuccess ? "Has enviado respuesta correctamente." : errorMessage
+          }
+          isSuccess={isSuccess}
+        />
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import { RiLockLine, RiLockUnlockLine } from "react-icons/ri";
 
 interface InputProps {
   type: "text" | "email" | "password" | "date" | "file";
-  placeholder: string;
+  placeholder?: string;
   name?: string;
   onChange?: any;
   className?: string;
@@ -39,7 +39,7 @@ const Input: FC<InputProps> = ({
             : "password"
         }
         className={cn(
-          "bg-gray-100 w-full py-3 pl-4 pr-12 outline-none rounded-xl",
+          "bg-gray-100 w-full py-3 pl-4 pr-12 outline-none rounded-xl text-gray-600",
           className
         )}
         placeholder={placeholder}

@@ -122,7 +122,6 @@ const TramiteDocumento = () => {
             <tr className="text-xs font-semibold tracking-wide text-left text-gray-600 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
               <th className="px-4 py-3">N°</th>
               <th className="px-4 py-3">Remitente</th>
-              <th className="px-4 py-3">Email</th>
               <th className="px-4 py-3">Asunto</th>
               <th className="px-4 py-3">Fecha</th>
               <th className="px-4 py-3">Tipo Documento</th>
@@ -140,9 +139,6 @@ const TramiteDocumento = () => {
                   </td>
                   <td className="px-4 py-3 text-sm font-semibold">
                     {document.remitente}
-                  </td>
-                  <td className="px-4 py-3 text-sm font-semibold">
-                    {document.email}
                   </td>
                   <td className="px-4 py-3 text-sm font-semibold">
                     {document.asunto}
@@ -203,7 +199,6 @@ const TramiteDocumento = () => {
           pdfBlob={pdfBlob}
         />
       )}
-      ?:
       {showModalEmail && selectedDocument && (
         <ModalUser handleShowModal={() => setShowModal(false)}>
           <FormEmail

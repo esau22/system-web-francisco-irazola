@@ -2,6 +2,7 @@
 import Button from "@/components/ui/button";
 import ButtonIcon from "@/components/ui/button-icon";
 import Input from "@/components/ui/input";
+import Modal from "@/components/ui/modal";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -12,6 +13,8 @@ const Form = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(true);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -35,14 +38,33 @@ const Form = () => {
 
         // Almacenar el token en el almacenamiento local (localStorage)
         localStorage.setItem("authToken", token);
-        router.push("/dashboard");
+        setIsSuccess(true);
+        setIsModalOpen(true);
+        //router.push("/dashboard");
       } else {
-        // Si hay un error en el inicio de sesión, muestra el mensaje de error
         setError(data.message);
+        setIsSuccess(false);
+        setIsModalOpen(true);
+        setEmail("");
+        setPassword("");
+        // Si hay un error en el inicio de sesión, muestra el mensaje de error
       }
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
       setError("Error al iniciar sesión. Inténtalo de nuevo más tarde.");
+      setIsSuccess(false);
+      setIsModalOpen(true);
+      setEmail("");
+      setPassword("");
+    }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    if (isSuccess) {
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 1000);
     }
   };
 
@@ -100,6 +122,21 @@ const Form = () => {
           <ButtonIcon icon={RiGithubFill} />
         </div>
       </form>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        label={
+          isSuccess
+            ? "🎉 Inicio de sesión exitoso! 🎉"
+            : "❌ Error de inicio de sesión ❌"
+        }
+        description={
+          isSuccess
+            ? "Has iniciado sesión correctamente."
+            : "Credenciales incorrectas."
+        }
+        isSuccess={isSuccess} // Pasar el estado para distinguir entre éxito y error
+      />
     </div>
   );
 };
