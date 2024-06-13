@@ -12,7 +12,7 @@ const MainMenu = () => {
           href="#home"
           className="py-2 px-4 border-b-2 border-primary transition-colors duration-300 text-white"
         >
-          Home
+          Inicio
         </Link>
       </li>
       <li>
@@ -20,7 +20,7 @@ const MainMenu = () => {
           href="#services"
           className="py-2 px-4 border-b-2 border-transparent hover:border-primary transition-colors duration-300 text-white"
         >
-          Services
+          Servicios
         </Link>
       </li>
       <li>
@@ -28,7 +28,7 @@ const MainMenu = () => {
           href="#about"
           className="py-2 px-4 border-b-2 border-transparent hover:border-primary transition-colors duration-300 text-white"
         >
-          About
+          Acerca de
         </Link>
       </li>
       <li>
@@ -36,7 +36,7 @@ const MainMenu = () => {
           href="#contact"
           className="py-2 px-4 border-b-2 border-transparent hover:border-primary transition-colors duration-300 text-white"
         >
-          Contact
+          Contacto
         </Link>
       </li>
       <li>

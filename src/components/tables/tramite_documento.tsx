@@ -1,12 +1,13 @@
 "use client";
 import ButtonIcon from "../ui/button-icon";
 import { FiEye } from "react-icons/fi";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import ModalDocuments from "../modal/modal_documents";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { MdOutlineEmail } from "react-icons/md";
 import ModalUser from "../modal/modal_user";
 import FormEmail from "../ui/formEmail";
+import Pagination from "../pagination/pagination";
 
 interface Document {
   id: number;
@@ -20,7 +21,7 @@ interface Document {
   tipo: string;
 }
 
-const TramiteDocumento = () => {
+const TramiteDocumento: FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModalEmail, setShowModalEmail] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState<Document | null>(
@@ -29,6 +30,8 @@ const TramiteDocumento = () => {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const documentsPerPage = 4; // Show 4 documents per page
 
   useEffect(() => {
     const fetchData = async () => {
@@ -111,6 +114,15 @@ const TramiteDocumento = () => {
     setShowModalEmail(true);
   };
 
+  const indexOfLastDocument = currentPage * documentsPerPage;
+  const indexOfFirstDocument = indexOfLastDocument - documentsPerPage;
+  const currentDocuments = documents.slice(
+    indexOfFirstDocument,
+    indexOfLastDocument
+  );
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
   return (
     <div className="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
       <h4 className="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-800">
@@ -131,8 +143,8 @@ const TramiteDocumento = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-            {Array.isArray(documents) &&
-              documents.map((document, id) => (
+            {Array.isArray(currentDocuments) &&
+              currentDocuments.map((document, id) => (
                 <tr key={id} className="text-gray-700 dark:text-gray-400">
                   <td className="px-4 py-3 text-sm font-semibold">
                     {document.id}
@@ -192,6 +204,12 @@ const TramiteDocumento = () => {
           </tbody>
         </table>
       </div>
+      <Pagination
+        itemsPerPage={documentsPerPage}
+        totalItems={documents.length}
+        paginate={paginate}
+        currentPage={currentPage}
+      />
       {showModal && (
         <ModalDocuments
           handleShowModal={() => setShowModal(false)}

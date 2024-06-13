@@ -18,19 +18,18 @@ export const Sidebar = ({ showMenu, onClose }: SidebarProps) => {
           showMenu ? "left-0" : "-left-full"
         )}
       >
-        <section className="relative flex px-2 py-[1.57rem]  border-b border-gray-500/30 h-[6.8vw]">
+        <section className="relative flex flex-col items-center px-2 py-[1.57rem] border-b border-gray-500/30 h-[6.8vw]">
           <Link
             href="/"
             className="relative flex gap-2 text-xl text-gray-500 hover:text-white transition-colors duration-300"
           >
             <Image
-              className="h-6 w-6 rounded-md"
+              className="h-14 w-14 rounded-md items-center"
               width={400}
               height={400}
-              src={"/logo-icon.png"}
+              src={"/images/logo/logo_fi.png"}
               alt="Logo"
             />
-            Dashboard
           </Link>
         </section>
         <section>

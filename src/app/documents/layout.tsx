@@ -14,7 +14,7 @@ const DocumentsLayout: FC<AuthLayoutProps> = ({ children }) => {
         </div>
         <div>
           <h3 className="text-white text-4xl font-semibold text-center mb-5">
-            Help You Switch Carear <br /> To Become a Progrmmar
+            I.E. <br /> Francisco Irazola
           </h3>
           <p className="text-gray-300 text-xl text-center">
             Additional Class that you can learn

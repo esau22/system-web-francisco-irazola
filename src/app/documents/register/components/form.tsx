@@ -36,6 +36,7 @@ const Form = () => {
   const [areas, setAreas] = useState<Area[]>([]);
   const [loading, setLoading] = useState({ tipos: true, areas: true });
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(true);
 
   useEffect(() => {
     const fetchTipos = async () => {
@@ -43,6 +44,13 @@ const Form = () => {
         const response = await fetch("/api/tipo_document");
         const data = await response.json();
         setTipos(data.tipos);
+        // Establecer el primer tipo como valor por defecto
+        if (data.tipos.length > 0) {
+          setDocumento((prevDocument) => ({
+            ...prevDocument,
+            tipo: data.tipos[0].id,
+          }));
+        }
       } catch (error) {
         console.error("Error al obtener tipos:", error);
       } finally {
@@ -59,6 +67,13 @@ const Form = () => {
         const response = await fetch("/api/area");
         const data = await response.json();
         setAreas(data.areas);
+        // Establecer la primera área como valor por defecto
+        if (data.areas.length > 0) {
+          setDocumento((prevDocument) => ({
+            ...prevDocument,
+            area: data.areas[0].id,
+          }));
+        }
       } catch (error) {
         console.error("Error al obtener áreas:", error);
       } finally {
@@ -150,31 +165,36 @@ const Form = () => {
           });
 
           if (response.ok) {
-            const responseData = await response.json();
-            console.log("Documento creado exitosamente:", responseData);
-            //router.push("/");
+            setIsSuccess(true);
+            setIsModalOpen(true);
+            setTimeout(() => {
+              router.push("/");
+            }, 2000); // Espera 2 segundos antes de redirigir
           } else {
             const errorData = await response.json();
             console.error(
               "Error en la respuesta del servidor:",
               errorData.message
             );
+            setIsSuccess(false);
+            setIsModalOpen(true);
           }
         }
       };
       reader.readAsArrayBuffer(informacion);
     } catch (error: any) {
       console.error("Error al enviar el formulario:", error);
+      setIsSuccess(false);
+      setIsModalOpen(true);
     }
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setTimeout(() => {
+    if (isSuccess) {
       router.push("/");
-    }, 1000); // Espera 1 segundo antes de redirigir
+    }
   };
-
   return (
     <div className="w-full max-w-md">
       <div className="mb-5">
@@ -186,55 +206,59 @@ const Form = () => {
           type="text"
           name="remitente"
           onChange={handleChange}
-          placeholder="Ingrese Remitente"
+          placeholder="Ingrese nombres y apellidos"
         />
         <Input
           value={documento.email}
           type="email"
           name="email"
           onChange={handleChange}
-          placeholder="Ingrese Email"
+          placeholder="Ingrese su correo"
         />
-        <Input
-          value={documento.asunto}
-          type="text"
+        <Select
+          value={documento.asunto ?? ""}
           name="asunto"
           onChange={handleChange}
-          placeholder="Ingrese Asunto"
+          placeholder="Selecione una opcion"
+          options={[
+            { label: "Tramite", value: "Tramite" },
+            { label: "Solicitud", value: "Solicitud" },
+          ]}
         />
         <Input
           value={documento.fecha}
           type="date"
           name="fecha"
           onChange={handleChange}
-          placeholder="Ingrese Fecha"
+          placeholder="Selecione la fecha"
         />
         <Input
           //value={documento.informacion}
           type="file"
           name="informacion"
           onChange={handleChange}
-          placeholder="Ingrese Informacion"
+          placeholder="Cargue su archivo pdf"
         />
         <Select
           value={documento.area ?? ""}
           onChange={handleChange}
+          placeholder="Seleciona una opcion"
           name="area"
-          options={
-            areas
-              ? areas.map((area) => ({ label: area.nombre, value: area.id }))
-              : []
-          }
+          options={areas.map((area) => ({
+            label: area.nombre,
+            value: area.id,
+          }))}
         />
+
         <Select
           value={documento.tipo ?? ""}
           onChange={handleChange}
           name="tipo"
-          options={
-            tipos
-              ? tipos.map((tipo) => ({ label: tipo.nombre, value: tipo.id }))
-              : []
-          }
+          placeholder="Selecciona una opción"
+          options={tipos.map((tipo) => ({
+            label: tipo.nombre,
+            value: tipo.id,
+          }))}
         />
         <Button type="submit" label="Enviar Documento" />
         <div className="mt-5 mb-10 flex items-center justify-center gap-x-2">
@@ -267,8 +291,17 @@ const Form = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
-        label="🎉 Documento enviado exitosamente! 🎉"
-        description="Tu documento ha sido enviado correctamente."
+        label={
+          isSuccess
+            ? "🎉 Documento enviado con exitoso! 🎉"
+            : "❌ Error al enviar documento ❌"
+        }
+        description={
+          isSuccess
+            ? "Has enviado correctamente."
+            : "Error al enviar documento."
+        }
+        isSuccess={isSuccess} // Pasar el estado para distinguir entre éxito y error
       />
     </div>
   );

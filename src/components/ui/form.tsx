@@ -6,7 +6,19 @@ import { isValidEmail } from "@/utils/isValidEmail";
 import Modal from "./modal";
 import Select from "./select";
 
-const Form = () => {
+interface User {
+  id: number;
+  user: string;
+  email: string;
+  password: string;
+  rol: string;
+}
+
+interface Props {
+  updateUserList: (newUser: User) => void;
+}
+
+const Form: React.FC<Props> = ({ updateUserList }) => {
   const [usuario, setUsuario] = useState({
     user: "",
     email: "",
@@ -69,6 +81,7 @@ const Form = () => {
         //router.push("/dashboard");
         setIsSuccess(true);
         setIsModalOpen(true);
+        updateUserList(data.user);
       } else {
         const data = await response.json();
         //console.log("---->", data);

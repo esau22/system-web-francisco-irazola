@@ -6,7 +6,7 @@ const Services = () => {
   return (
     <section
       id="services"
-      className="min-h-screen flex items-center justify-center mb-10 lg:mb-0"
+      className="min-h-screen flex items-center justify-center mb-10 lg:mb-0 py-8"
     >
       <Container>
         <SubTitle title="Fitness Plans &" titlePrimary="Educación integral" />

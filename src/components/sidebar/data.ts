@@ -1,23 +1,14 @@
 import { PiUsersFill } from "react-icons/pi";
-import {
-  RiCalendarCheckFill,
-  RiHome3Line,
-  RiTableAltFill,
-  RiUserLine,
-} from "react-icons/ri";
+import { RiHome3Line, RiTableAltFill } from "react-icons/ri";
 
 export const data = {
   routes: [
     {
-      label: "Matricula",
+      label: "Bienvenidos",
       icon: RiHome3Line,
-      href: "/dashboard/matricula",
+      href: "/dashboard",
     },
-    {
-      label: "Certificado de Estudios",
-      icon: RiCalendarCheckFill,
-      href: "/dashboard/certificado",
-    },
+
     {
       label: "Tramite de Documentos",
       icon: RiTableAltFill,
@@ -27,11 +18,6 @@ export const data = {
       label: "Registro de Usuarios",
       icon: PiUsersFill,
       href: "/dashboard/users",
-    },
-    {
-      label: "Auth",
-      icon: RiUserLine,
-      href: "/auth",
     },
   ],
 };

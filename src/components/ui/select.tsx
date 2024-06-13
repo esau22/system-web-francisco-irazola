@@ -12,6 +12,7 @@ interface SelectProps {
   className?: string;
   value?: any;
   options: Option[];
+  placeholder?: string;
 }
 
 const Select: FC<SelectProps> = ({
@@ -20,25 +21,28 @@ const Select: FC<SelectProps> = ({
   value,
   onChange,
   options,
+  placeholder,
 }) => {
   return (
     <div className="w-full relative mb-5">
       <select
         className={cn(
-          "bg-gray-100 w-full py-3 pl-4 pr-12 outline-none rounded-xl",
+          "bg-gray-100 w-full py-3 pl-4 pr-12 outline-none rounded-xl text-gray-600",
           className
         )}
         name={name}
         value={value}
         onChange={onChange}
       >
+        {/* Placeholder como primera opción */}
+        {placeholder && <option value="">{placeholder}</option>}
+
         {/* Mapear las opciones */}
-        {options &&
-          options.map((option, index) => (
-            <option key={index} value={option.value}>
-              {option.label}
-            </option>
-          ))}
+        {options.map((option, index) => (
+          <option key={index} value={option.value}>
+            {option.label}
+          </option>
+        ))}
       </select>
     </div>
   );

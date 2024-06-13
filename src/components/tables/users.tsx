@@ -6,6 +6,7 @@ import { MdAdd } from "react-icons/md";
 import ModalUser from "../modal/modal_user";
 import Form from "@/components/ui/form";
 import Select from "../ui/select";
+import Pagination from "../pagination/pagination";
 
 interface User {
   id: number;
@@ -19,6 +20,8 @@ const User: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [users, setUsers] = useState<User[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const documentsPerPage = 4; // Show 4 documents per page
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -90,6 +93,20 @@ const User: React.FC = () => {
     setSelectedUser(user);
     setShowModal(true);
   };
+
+  const indexOfLastDocument = currentPage * documentsPerPage;
+  const indexOfFirstDocument = indexOfLastDocument - documentsPerPage;
+  const currentDocuments = users.slice(
+    indexOfFirstDocument,
+    indexOfLastDocument
+  );
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+  const updateUserList = (newUser: User) => {
+    setUsers((prevUsers) => [...prevUsers, newUser]);
+  };
+
   return (
     <div className="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
       <h4 className="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-800">
@@ -108,7 +125,7 @@ const User: React.FC = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-            {users.map((user, id) => (
+            {currentDocuments.map((user, id) => (
               <tr key={id} className="text-gray-700 dark:text-gray-400">
                 <td className="px-4 py-3 text-sm font-semibold">{user.id}</td>
                 <td className="px-4 py-3 text-sm font-semibold">{user.user}</td>
@@ -155,9 +172,15 @@ const User: React.FC = () => {
           </tbody>
         </table>
       </div>
+      <Pagination
+        itemsPerPage={documentsPerPage}
+        totalItems={users.length}
+        paginate={paginate}
+        currentPage={currentPage}
+      />
       {showModal && (
         <ModalUser handleShowModal={() => setShowModal(false)}>
-          <Form />
+          <Form updateUserList={updateUserList} />
         </ModalUser>
       )}
     </div>
