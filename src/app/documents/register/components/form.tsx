@@ -2,13 +2,23 @@
 import Button from "@/components/ui/button";
 import ButtonIcon from "@/components/ui/button-icon";
 import Input from "@/components/ui/input";
-import Modal from "@/components/ui/modal";
+import ModalTiket from "@/components/ui/modal-tiket";
 import Select from "@/components/ui/select";
 import { isValidEmail } from "@/utils/isValidEmail";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { RiFacebookFill, RiGithubFill, RiGoogleFill } from "react-icons/ri";
 
+interface Documento {
+  id?: number; // id es opcional si aún no se conoce al inicio
+  remitente: string;
+  email: string;
+  asunto: string;
+  fecha: string;
+  informacion: File | null;
+  tipo: number | null;
+  area: number | null;
+}
 interface Tipo {
   id: number;
   nombre: string;
@@ -21,7 +31,7 @@ interface Area {
 
 const Form = () => {
   const router = useRouter();
-  const [documento, setDocumento] = useState({
+  const [documento, setDocumento] = useState<Documento>({
     remitente: "",
     email: "",
     asunto: "",
@@ -35,7 +45,7 @@ const Form = () => {
   const [tipos, setTipos] = useState<Tipo[]>([]);
   const [areas, setAreas] = useState<Area[]>([]);
   const [loading, setLoading] = useState({ tipos: true, areas: true });
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalTiketOpen, setIsModalTiketOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(true);
 
   useEffect(() => {
@@ -165,11 +175,16 @@ const Form = () => {
           });
 
           if (response.ok) {
+            const responseData = await response.json();
+            const { document } = responseData; // Obtener el documento creado
+            const { id } = document; // Obtener el ID del documento creado
+
             setIsSuccess(true);
-            setIsModalOpen(true);
-            setTimeout(() => {
-              router.push("/");
-            }, 2000); // Espera 2 segundos antes de redirigir
+            setDocumento((prevDocument) => ({
+              ...prevDocument,
+              id: id, // Actualiza el estado de documento con el ID
+            }));
+            setIsModalTiketOpen(true);
           } else {
             const errorData = await response.json();
             console.error(
@@ -177,7 +192,8 @@ const Form = () => {
               errorData.message
             );
             setIsSuccess(false);
-            setIsModalOpen(true);
+            setIsModalTiketOpen(true);
+            // setIsModalTiketOpen(true);
           }
         }
       };
@@ -185,16 +201,18 @@ const Form = () => {
     } catch (error: any) {
       console.error("Error al enviar el formulario:", error);
       setIsSuccess(false);
-      setIsModalOpen(true);
+      setIsModalTiketOpen(true);
+      //setIsModalTiketOpen(true);
     }
   };
 
   const closeModal = () => {
-    setIsModalOpen(false);
+    setIsModalTiketOpen(false);
     if (isSuccess) {
       router.push("/");
     }
   };
+
   return (
     <div className="w-full max-w-md">
       <div className="mb-5">
@@ -267,13 +285,13 @@ const Form = () => {
           )}
         </div>
         <div className="mt-5 mb-10 flex items-center justify-center gap-x-2">
-          <p className="text-gray-500">have account?</p>*{" "}
+          <p className="text-gray-500">Volver ala pagina prin?</p>*{" "}
           <button
             type="button"
-            onClick={() => router.push("/auth/login")}
+            onClick={() => router.push("/")}
             className="font-semibold hover:text-primary transition-colors duration-300"
           >
-            Login
+            Inicio
           </button>
         </div>
         <div className="mb-5">
@@ -288,20 +306,23 @@ const Form = () => {
           <ButtonIcon icon={RiGithubFill} />
         </div>
       </form>
-      <Modal
-        isOpen={isModalOpen}
+      <ModalTiket
+        isOpen={isModalTiketOpen}
         onClose={closeModal}
+        id={documento.id}
+        remitente={documento.remitente}
+        fecha={documento.fecha}
+        asunto={documento.asunto}
+        email={documento.email}
         label={
-          isSuccess
-            ? "🎉 Documento enviado con exitoso! 🎉"
-            : "❌ Error al enviar documento ❌"
+          isSuccess ? "🎉 TIKET DE TRAMITE 🎉" : "❌ Error al generar tiket ❌"
         }
         description={
           isSuccess
-            ? "Has enviado correctamente."
-            : "Error al enviar documento."
+            ? "Ha generado correctamente su tiket."
+            : "Error al generar tiket."
         }
-        isSuccess={isSuccess} // Pasar el estado para distinguir entre éxito y error
+        isSuccess={isSuccess}
       />
     </div>
   );

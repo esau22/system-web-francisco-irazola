@@ -14,12 +14,14 @@ const DocumentsLayout: FC<AuthLayoutProps> = ({ children }) => {
         </div>
         <div>
           <h3 className="text-white text-4xl font-semibold text-center mb-5">
-            I.E. <br /> Francisco Irazola
+            I.E.E <br /> FRANCISCO IRAZOLA
           </h3>
           <p className="text-gray-300 text-xl text-center">
-            Additional Class that you can learn
+            Todos tus datos están seguros con nosotros.
           </p>
-          <p className="text-gray-300 text-center">Annyhere and anytime</p>
+          <p className="text-gray-300 text-center">
+            2024 Ugel Satipo-Francisco Irazola
+          </p>
         </div>
       </section>
       {children}

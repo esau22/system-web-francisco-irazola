@@ -42,7 +42,7 @@ const MainMenu = () => {
       <li>
         <Button
           type="button"
-          label="Login"
+          label="Iniciar Sesion"
           onClick={() => router.push("/auth/login")}
         />
       </li>

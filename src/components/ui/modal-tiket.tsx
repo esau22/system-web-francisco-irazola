@@ -2,84 +2,106 @@ import { FC } from "react";
 import Button from "./button";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
-interface ModalProps {
+interface ModalTiketProps {
   isOpen: boolean;
   onClose: () => void;
-  ticketNumber: string;
-  fecha: string;
-  applicantName: string;
-  applicantID: string;
-  email: string;
-  documentType: string;
-  subject: string;
+  label: string;
   description: string;
-  pages: number;
-  observations: string;
+  id?: number;
+  remitente: string;
+  asunto: string;
+  email: string;
+  fecha: string;
   isSuccess?: boolean;
 }
 
-const ModalTiket: FC<ModalProps> = ({
+const ModalTiket: FC<ModalTiketProps> = ({
   isOpen,
   onClose,
-  ticketNumber,
-  receptionDate,
-  applicantName,
-  applicantID,
-  email,
-  phone,
-  documentType,
-  subject,
+  label,
   description,
-  pages,
-  observations,
+  id,
+  remitente,
+  asunto,
+  email,
+  fecha,
   isSuccess,
 }) => {
   if (!isOpen) return null;
+
+  const handleDownloadPDF = () => {
+    const content = document.getElementById("modal-content")?.innerHTML;
+    if (content) {
+      const printWindow = window.open("", "", "width=800,height=600");
+      if (printWindow) {
+        printWindow.document.write(`
+          <html>
+            <head>
+              <title>Document PDF</title>
+              <style>
+                body {
+                  font-family: Arial, sans-serif;
+                  padding: 20px;
+                }
+                .title {
+                  font-size: 24px;
+                  margin-bottom: 20px;
+                }
+                .content p {
+                  margin: 5px 0;
+                }
+              </style>
+            </head>
+            <body>
+              <div class="title">${label}</div>
+              <div class="content">${content}</div>
+            </body>
+          </html>
+        `);
+        printWindow.document.close();
+        printWindow.focus();
+        printWindow.print();
+        printWindow.close();
+      }
+    }
+    onClose(); // Close the modal after downloading the PDF
+  };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="bg-white p-8 rounded-md shadow-md text-center max-w-lg">
-        <h2 className="text-2xl font-semibold mb-4">
-          {isSuccess ? (
-            <FaCheckCircle className="inline-block mr-2 text-green-500" />
-          ) : (
-            <FaTimesCircle className="inline-block mr-2 text-red-500" />
-          )}
-          Registro de Documento
-        </h2>
-        <p className="mb-2">
-          <strong>N° de Ticket:</strong> {ticketNumber}
-        </p>
-        <p className="mb-2">
-          <strong>Fecha y Hora de Recepción:</strong> {receptionDate}
-        </p>
-        <p className="mb-2">
-          <strong>Nombre del Solicitante:</strong> {applicantName}
-        </p>
-        <p className="mb-2">
-          <strong>DNI:</strong> {applicantID}
-        </p>
-        <p className="mb-2">
-          <strong>Correo Electrónico:</strong> {email}
-        </p>
-        <p className="mb-2">
-          <strong>Teléfono:</strong> {phone}
-        </p>
-        <p className="mb-2">
-          <strong>Tipo de Documento:</strong> {documentType}
-        </p>
-        <p className="mb-2">
-          <strong>Asunto del Documento:</strong> {subject}
-        </p>
-        <p className="mb-4">
-          <strong>Descripción del Documento:</strong> {description}
-        </p>
-        <p className="mb-2">
-          <strong>Número de Páginas:</strong> {pages}
-        </p>
-        <p className="mb-4">
-          <strong>Observaciones:</strong> {observations}
-        </p>
-        <Button type="button" onClick={onClose} label="Cerrar" />
+        <div id="modal-content">
+          <h2 className="text-2xl font-semibold mb-4">
+            {isSuccess ? (
+              <FaCheckCircle className="inline-block mr-2 text-green-500" />
+            ) : (
+              <FaTimesCircle className="inline-block mr-2 text-red-500" />
+            )}
+            {label}
+          </h2>
+          <p className="mb-4">{description}</p>
+          <p className="mb-2">
+            <strong>N° de Ticket:</strong> {id}
+          </p>
+          <p className="mb-2">
+            <strong>Fecha y Hora de Recepción:</strong> {fecha}
+          </p>
+          <p className="mb-2">
+            <strong>Nombre del Solicitante:</strong> {remitente}
+          </p>
+          <p className="mb-2">
+            <strong>Asunto del tramite:</strong> {asunto}
+          </p>
+          <p className="mb-2">
+            <strong>Correo Electrónico:</strong> {email}
+          </p>
+        </div>
+
+        <Button
+          type="button"
+          onClick={handleDownloadPDF}
+          label="Descargar PDF y Cerrar"
+        />
       </div>
     </div>
   );

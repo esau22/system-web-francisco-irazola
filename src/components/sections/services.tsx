@@ -12,24 +12,24 @@ const Services = () => {
         <SubTitle title="Fitness Plans &" titlePrimary="Educación integral" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-20">
           <Service
-            image="/images/cards/cards-02.png"
+            image="/images/cards/tecnologico.jpg"
             title="Tecnologia"
             description="En I.E. Francisco Irazola, la tecnología transforma el aprendizaje con aulas digitales, robótica y programación."
           />
           <Service
-            image="/images/cards/cards-01.png"
-            title="Cultura"
-            description="En I.E. Francisco Irazola, fomentamos una rica vida cultural con programas de arte, música, teatro y literatura."
+            image="/images/cards/industria.jpg"
+            title="Industria Alimentaria"
+            description="En I.E. Francisco Irazola, fomentamos la industria alimentaria, tiene talleres donde realizan reposteria,o cyalquier tipo de preparación de alimentos.."
           />
           <Service
-            image="/images/cards/cards-03.png"
+            image="/images/cards/deporte.jpg"
             title="Deporte"
             description="En I.E. Francisco Irazola, promovemos la excelencia deportiva con diversas disciplinas y modernas instalaciones."
           />
           <Service
-            image="/images/cards/cards-04.png"
-            title="Formacion Religiosa"
-            description="En I.E. Francisco Irazola, fortalecemos valores y espiritualidad a través de una sólida formación religiosa."
+            image="/images/cards/mecanica.jpg"
+            title="Mecánica"
+            description="En I.E. Francisco Irazola, tiene talleres de mecanica para todos los alunoms asi impulsandoles a los estudiantes a aprender nuevas cosas."
           />
           <Service
             image="/images/cards/cards-05.png"
@@ -37,7 +37,7 @@ const Services = () => {
             description="En I.E. Francisco Irazola, la electrónica es más que un curso, es una ventana hacia la innovación, donde los estudiantes desarrollan habilidades técnicas y creatividad para diseñar el futuro."
           />
           <Service
-            image="/images/cards/cards-06.png"
+            image="/images/cards/costura.jpg"
             title="Costura"
             description="En I.E. Francisco Irazola, la costura es un arte ancestral que cultivamos para inspirar la creatividad y la habilidad manual de nuestros estudiantes, fusionando tradición con expresión personal."
           />

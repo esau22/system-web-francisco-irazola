@@ -8,7 +8,7 @@ const Header = () => {
       <div className="flex flex-grow items-center justify-between sm:w-auto gap-4">
         <Input
           type="text"
-          placeholder="Search"
+          placeholder="Buscar.."
           className={cn(
             "w-25 -mb-5 ml-56 hidden md:hidden sm:hidden lg:inline-block flex-grow"
           )}

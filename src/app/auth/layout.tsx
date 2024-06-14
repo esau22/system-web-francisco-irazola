@@ -14,12 +14,15 @@ const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
         </div>
         <div>
           <h3 className="text-white text-4xl font-semibold text-center mb-5">
-            I.E. <br /> Francisco Irazola
+            I.E.E <br /> FRANCISCO iRAZOLA
           </h3>
-          <p className="text-gray-300 text-xl text-center">
-            Additional Class that you can learn
+          <p className="text-gray-200 text-xl text-center">
+            Por tu seguridad tiene que validar tu correo y contraseña para
+            iniciar sesión
           </p>
-          <p className="text-gray-300 text-center">Annyhere and anytime</p>
+          <p className="text-gray-200 text-center">
+            autentificacion de credenciales
+          </p>
         </div>
       </section>
       {children}

@@ -31,7 +31,7 @@ const Plans = () => {
             <SwiperSlide>
               <div className="relative w-full h-[70vh] mx-auto">
                 <Image
-                  src="/images/teacher/trainer-1.png"
+                  src="/images/teacher/cachi1.jpg"
                   alt="Trainer"
                   fill
                   className="object-cover rounded-xl shadow-xl"
@@ -41,7 +41,7 @@ const Plans = () => {
             <SwiperSlide>
               <div className="relative w-full h-[70vh] mx-auto">
                 <Image
-                  src="/images/teacher/trainer-2.png"
+                  src="/images/teacher/cachi2.jpg"
                   alt="Trainer"
                   fill
                   className="object-cover rounded-xl shadow-xl"
@@ -51,7 +51,7 @@ const Plans = () => {
             <SwiperSlide>
               <div className="relative w-full h-[70vh] mx-auto">
                 <Image
-                  src="/images/teacher/trainer-3.png"
+                  src="/images/teacher/cachi3.webp"
                   alt="Trainer"
                   fill
                   className="object-cover rounded-xl shadow-xl"
@@ -61,7 +61,7 @@ const Plans = () => {
             <SwiperSlide>
               <div className="relative w-full h-[70vh] mx-auto">
                 <Image
-                  src="/images/teacher/trainer-4.png"
+                  src="/images/teacher/cachi4.jpg"
                   alt="Trainer"
                   fill
                   className="object-cover rounded-xl shadow-xl"
@@ -71,7 +71,7 @@ const Plans = () => {
             <SwiperSlide>
               <div className="relative w-full h-[70vh] mx-auto">
                 <Image
-                  src="/images/teacher/trainer-5.png"
+                  src="/images/teacher/banda.jpg"
                   alt="Trainer"
                   fill
                   className="object-cover rounded-xl shadow-xl"
@@ -81,7 +81,7 @@ const Plans = () => {
             <SwiperSlide>
               <div className="relative w-full h-[70vh] mx-auto">
                 <Image
-                  src="/images/teacher/trainer-6.png"
+                  src="/images/teacher/ciencia13.jpg"
                   alt="Trainer"
                   fill
                   className="object-cover rounded-xl shadow-xl"
