@@ -260,12 +260,14 @@ const Form = () => {
         <Select
           value={documento.area ?? ""}
           onChange={handleChange}
-          placeholder="Seleciona una opcion"
+          placeholder="Selecciona un Asunto"
           name="area"
-          options={areas.map((area) => ({
-            label: area.nombre,
-            value: area.id,
-          }))}
+          options={[
+            {
+              label: areas[0].nombre,
+              value: areas[0].id,
+            },
+          ]}
         />
 
         <Select
@@ -285,7 +287,7 @@ const Form = () => {
           )}
         </div>
         <div className="mt-5 mb-10 flex items-center justify-center gap-x-2">
-          <p className="text-gray-500">Volver ala pagina prin?</p>*{" "}
+          <p className="text-gray-500">Volver a la pagina principal?</p>*{" "}
           <button
             type="button"
             onClick={() => router.push("/")}

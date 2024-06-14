@@ -178,48 +178,69 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest): Promise<NextResponse> {
   try {
-    const { id, estado_documento } = await request.json();
+    const { id, areaId, ...data } = await request.json();
 
-    // Validar los datos de la solicitud
-    if (!estado_documento || !id) {
-      return new NextResponse(
-        JSON.stringify({ message: "estado_documento is required" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+    // Validar que el ID esté presente
+    if (!id) {
+      return new NextResponse(JSON.stringify({ message: "id is required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
-    // Actualizar el estado del documento
-    await prisma.documento.update({
-      where: { id: parseInt(id, 10) }, // Asegúrate de convertir el ID a número si es necesario
-      data: { estado_documento },
+    let areaIdInt: number | undefined;
+
+    // Verificar si areaId es un string (nombre del área)
+    if (typeof areaId === "string") {
+      const area = await prisma.area.findUnique({
+        where: { nombre: areaId },
+      });
+
+      // Si no se encuentra el área, retornar error 404
+      if (!area) {
+        return new NextResponse(
+          JSON.stringify({ message: "Area no encontrada" }),
+          {
+            status: 404,
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+      }
+
+      areaIdInt = area.id; // Obtener el ID del área encontrada
+    } else if (typeof areaId === "number") {
+      areaIdInt = areaId;
+    }
+
+    // Actualizar el documento en la base de datos con Prisma
+    const updatedDocument = await prisma.documento.update({
+      where: { id: parseInt(id, 10) },
+      data: {
+        ...data,
+        areaId: areaIdInt, // Asignar el área ID convertido
+      },
+      include: {
+        tipo: true,
+        area: true,
+      },
     });
 
     // Retornar la respuesta de éxito
     return new NextResponse(
       JSON.stringify({
         message: "Documento actualizado exitosamente",
+        document: updatedDocument,
       }),
       {
         status: 200,
         headers: { "Content-Type": "application/json" },
       }
     );
-  } catch (error: unknown) {
-    // Establecer el mensaje de error predeterminado
-    let errorMessage = "Error al actualizar el estado del documento";
-
-    // Verificar si el error es de tipo Error
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
-
-    // Registrar el error para depuración
-    console.error("Error al actualizar el estado del documento:", error);
-
-    // Retornar una respuesta de error
+  } catch (error) {
+    console.error("Error al actualizar documento:", error); // Mejorar el manejo de errores
     return new NextResponse(
       JSON.stringify({
-        message: errorMessage,
+        message: "Error al actualizar documento",
       }),
       {
         status: 500,

@@ -18,7 +18,13 @@ interface Document {
   informacion: { type: string; data: number[] };
   estado_documento: string;
   area: string;
+  areaId: number;
   tipo: string;
+}
+
+interface Area {
+  id: number;
+  nombre: string;
 }
 
 const TramiteDocumento: FC = () => {
@@ -28,6 +34,7 @@ const TramiteDocumento: FC = () => {
     null
   );
   const [documents, setDocuments] = useState<Document[]>([]);
+  const [areas, setAreas] = useState<Area[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -63,6 +70,8 @@ const TramiteDocumento: FC = () => {
         throw new Error("Failed to update document status");
       }
 
+      const updatedDocument = await response.json();
+
       setDocuments((prevDocuments) =>
         prevDocuments.map((doc) =>
           doc.id === id ? { ...doc, estado_documento } : doc
@@ -73,6 +82,49 @@ const TramiteDocumento: FC = () => {
       // Manejar el error si es necesario
     }
   };
+
+  const updateDocumentArea = async (id: number, areaId: number) => {
+    try {
+      const response = await fetch(`/api/documents`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id, areaId }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update document area");
+      }
+
+      const updatedDocument = await response.json();
+      //console.log("Documento actualizado:", updatedDocument);
+
+      setDocuments((prevDocuments) =>
+        prevDocuments.map((doc) => (doc.id === id ? { ...doc, areaId } : doc))
+      );
+    } catch (error) {
+      console.error("Error updating document area:", error);
+      // Manejar el error si es necesario
+    }
+  };
+
+  useEffect(() => {
+    const fetchAreas = async () => {
+      try {
+        const response = await fetch("/api/area");
+        if (!response.ok) {
+          throw new Error("Error al obtener las áreas");
+        }
+        const data = await response.json();
+        //console.log("Áreas obtenidas:", data.areas);
+        setAreas(data.areas); // Actualiza el estado 'areas' con los datos recibidos
+      } catch (error: any) {
+        setError(error.message);
+      }
+    };
+    fetchAreas();
+  }, []);
 
   const deleteDocument = async (id: number) => {
     try {
@@ -162,7 +214,30 @@ const TramiteDocumento: FC = () => {
                     {document.tipo}
                   </td>
                   <td className="px-4 py-3 text-sm font-semibold">
-                    {document.area}
+                    <select
+                      className={`rounded-full px-2 py-1 font-semibold leading-tight ${
+                        document.areaId === 1
+                          ? "text-green-700 bg-green-100 dark:bg-green-700 dark:text-green-100"
+                          : document.areaId === 2
+                          ? "text-blue-700 bg-blue-100 dark:bg-blue-700 dark:text-blue-100"
+                          : ""
+                      }`}
+                      value={document.areaId}
+                      onChange={(e) => {
+                        const newAreaId = parseInt(e.target.value);
+                        //console.log(
+                        //"Nuevo ID de área seleccionada:",
+                        //</td>newAreaId
+                        //); // Nuevo valor del área seleccionada
+                        updateDocumentArea(document.id, newAreaId);
+                      }}
+                    >
+                      {areas.map((area) => (
+                        <option key={area.id} value={area.id}>
+                          {area.nombre}
+                        </option>
+                      ))}
+                    </select>
                   </td>
                   <td className="px-4 py-3 text-xs font-semibold">
                     <select

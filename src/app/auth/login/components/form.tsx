@@ -101,7 +101,7 @@ const Form = () => {
         </div>
         <Button type="submit" label="Iniciar Sesion" />
         <div className="mt-5 mb-10 flex items-center justify-center gap-x-2">
-          <p className="text-gray-500">Volver Pagina Principal?</p>
+          <p className="text-gray-500">Volver a la Pagina Principal?</p>
           <button
             type="button"
             onClick={() => router.push("/")}
