@@ -7,11 +7,11 @@ import { useEffect, useState } from "react";
 
 export const MenuItems = () => {
   const pathname = usePathname();
-  const [userRole, setUserRole] = useState(null);
+  const [userRole, setUserRole] = useState<string>("");
 
   useEffect(() => {
     const role = localStorage.getItem("userRole");
-    setUserRole(role);
+    setUserRole(role || String);
   }, []);
 
   const canAccess = (route: any) => {
