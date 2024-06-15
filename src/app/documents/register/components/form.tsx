@@ -54,13 +54,6 @@ const Form = () => {
         const response = await fetch("/api/tipo_document");
         const data = await response.json();
         setTipos(data.tipos);
-        // Establecer el primer tipo como valor por defecto
-        if (data.tipos.length > 0) {
-          setDocumento((prevDocument) => ({
-            ...prevDocument,
-            tipo: data.tipos[0].id,
-          }));
-        }
       } catch (error) {
         console.error("Error al obtener tipos:", error);
       } finally {
@@ -77,13 +70,6 @@ const Form = () => {
         const response = await fetch("/api/area");
         const data = await response.json();
         setAreas(data.areas);
-        // Establecer la primera área como valor por defecto
-        if (data.areas.length > 0) {
-          setDocumento((prevDocument) => ({
-            ...prevDocument,
-            area: data.areas[0].id,
-          }));
-        }
       } catch (error) {
         console.error("Error al obtener áreas:", error);
       } finally {
@@ -237,7 +223,7 @@ const Form = () => {
           value={documento.asunto ?? ""}
           name="asunto"
           onChange={handleChange}
-          placeholder="Selecione una opcion"
+          placeholder="Selecione una Asunto"
           options={[
             { label: "Tramite", value: "Tramite" },
             { label: "Solicitud", value: "Solicitud" },
@@ -260,21 +246,19 @@ const Form = () => {
         <Select
           value={documento.area ?? ""}
           onChange={handleChange}
-          placeholder="Selecciona un Asunto"
+          placeholder="Selecciona un Area"
           name="area"
-          options={[
-            {
-              label: areas[0].nombre,
-              value: areas[0].id,
-            },
-          ]}
+          options={areas.slice(0, 1).map((area) => ({
+            label: area.nombre,
+            value: area.id,
+          }))}
         />
 
         <Select
           value={documento.tipo ?? ""}
           onChange={handleChange}
           name="tipo"
-          placeholder="Selecciona una opción"
+          placeholder="Selecciona una Tipo de documento"
           options={tipos.map((tipo) => ({
             label: tipo.nombre,
             value: tipo.id,

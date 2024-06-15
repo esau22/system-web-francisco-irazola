@@ -33,11 +33,8 @@ const Form = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // Si el inicio de sesión es exitoso, obtenemos el token de sesión del backend
-        const token = data.token; // Supongamos que el token está en la respuesta como 'token'
-
-        // Almacenar el token en el almacenamiento local (localStorage)
-        localStorage.setItem("authToken", token);
+        localStorage.setItem("authToken", data.token); // Guardar token de autenticación
+        localStorage.setItem("userRole", data.role);
         setIsSuccess(true);
         setIsModalOpen(true);
         //router.push("/dashboard");

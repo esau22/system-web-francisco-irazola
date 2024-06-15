@@ -46,6 +46,12 @@ const Hero = () => {
                   className="w-full"
                 />
               </a>
+              <Button
+                type="button"
+                label="Consultar Tramite"
+                className="w-full"
+                onClick={() => router.push("/documents/detail")}
+              />
             </div>
           </div>
         </Container>
