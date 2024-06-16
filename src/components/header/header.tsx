@@ -6,13 +6,13 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-999 flex flex-col bg-black sm:flex-row items-center justify-between w-full px-2 py-4 border-b-4 border-gray-500/30">
       <div className="flex flex-grow items-center justify-between sm:w-auto gap-4">
-        <Input
+        {/*<Input
           type="text"
           placeholder="Buscar.."
           className={cn(
             "w-25 -mb-5 ml-56 hidden md:hidden sm:hidden lg:inline-block flex-grow"
           )}
-        />
+        />*/}
         <div className="sm:ml-auto sm:order-2">
           <DropdownUser />
         </div>

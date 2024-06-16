@@ -150,7 +150,7 @@ const Form = () => {
             area,
           };
 
-          console.log("Datos del requestData:", requestData);
+          //console.log("Datos del requestData:", requestData);
 
           const response = await fetch("/api/documents", {
             method: "POST",
@@ -223,7 +223,7 @@ const Form = () => {
           value={documento.asunto ?? ""}
           name="asunto"
           onChange={handleChange}
-          placeholder="Selecione una Asunto"
+          placeholder="Selecione un Asunto"
           options={[
             { label: "Tramite", value: "Tramite" },
             { label: "Solicitud", value: "Solicitud" },

@@ -84,13 +84,13 @@ const ModalTiket: FC<ModalTiketProps> = ({
             <strong>N° de Ticket:</strong> {id}
           </p>
           <p className="mb-2">
-            <strong>Fecha y Hora de Recepción:</strong> {fecha}
+            <strong>Fecha de Recepción:</strong> {fecha}
           </p>
           <p className="mb-2">
             <strong>Nombre del Solicitante:</strong> {remitente}
           </p>
           <p className="mb-2">
-            <strong>Asunto del tramite:</strong> {asunto}
+            <strong>Asunto:</strong> {asunto}
           </p>
           <p className="mb-2">
             <strong>Correo Electrónico:</strong> {email}
