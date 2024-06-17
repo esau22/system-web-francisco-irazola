@@ -1,4 +1,4 @@
-import { prisma } from "@/libs/prisma"; // Import Prisma
+import { prisma } from "@/libs/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -14,11 +14,13 @@ export async function GET() {
       }
     );
   } catch (error) {
-    console.error("Error al obtener documentos:", error); // Improved error logging
+    console.error("Error al obtener documentos:", error); // Log the error
+
+    // Return a detailed error response
     return new NextResponse(
       JSON.stringify({
         message: "Error al obtener documentos",
-        error: error instanceof Error ? error.message : "Unknown error", // Provide detailed error message
+        error: error instanceof Error ? error.message : "Unknown error",
       }),
       {
         status: 500,
