@@ -258,7 +258,7 @@ const Form = () => {
           value={documento.tipo ?? ""}
           onChange={handleChange}
           name="tipo"
-          placeholder="Selecciona una Tipo de documento"
+          placeholder="Selecciona un Tipo de documento"
           options={tipos.map((tipo) => ({
             label: tipo.nombre,
             value: tipo.id,
